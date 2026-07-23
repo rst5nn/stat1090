@@ -190,6 +190,8 @@ case "$TYPE" in
             "${COLORS[@]}" \
             --title "ADS-B Aircraft Tracked" \
             --vertical-label "Aircraft Count" \
+            --right-axis 1:0 \
+            --right-axis-label "Aircraft Count" \
             --lower-limit 0 \
             --units-exponent 0 \
             "TEXTALIGN:center" \
