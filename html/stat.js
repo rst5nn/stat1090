@@ -54,16 +54,16 @@ function applyTheme(theme) {
 
     const sunIcon = document.getElementById('theme-icon-sun');
     const moonIcon = document.getElementById('theme-icon-moon');
-    const toggleText = document.getElementById('theme-toggle-text');
+    const toggleBtn = document.getElementById('theme-toggle-btn');
 
     if (theme === 'light') {
         if (sunIcon) sunIcon.style.display = 'none';
         if (moonIcon) moonIcon.style.display = 'inline-block';
-        if (toggleText) toggleText.textContent = 'Dark Theme';
+        if (toggleBtn) toggleBtn.setAttribute('title', 'Switch to Dark theme');
     } else {
         if (sunIcon) sunIcon.style.display = 'inline-block';
         if (moonIcon) moonIcon.style.display = 'none';
-        if (toggleText) toggleText.textContent = 'Bright Theme';
+        if (toggleBtn) toggleBtn.setAttribute('title', 'Switch to Bright theme');
     }
 }
 

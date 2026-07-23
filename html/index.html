@@ -29,8 +29,8 @@
             </div>
             
             <div class="header-controls">
-                <button id="theme-toggle-btn" class="btn btn-theme-toggle" onclick="toggleTheme()" title="Switch between Dark and Bright themes">
-                    <svg id="theme-icon-sun" class="theme-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <button id="theme-toggle-btn" class="btn btn-theme-toggle" onclick="toggleTheme()" title="Switch theme">
+                    <svg id="theme-icon-sun" class="theme-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <circle cx="12" cy="12" r="5"></circle>
                         <line x1="12" y1="1" x2="12" y2="3"></line>
                         <line x1="12" y1="21" x2="12" y2="23"></line>
@@ -41,10 +41,9 @@
                         <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
                         <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
                     </svg>
-                    <svg id="theme-icon-moon" class="theme-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none">
+                    <svg id="theme-icon-moon" class="theme-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none">
                         <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
                     </svg>
-                    <span id="theme-toggle-text">Bright Theme</span>
                 </button>
 
                 <div class="status-indicator">
@@ -71,12 +70,12 @@
                 <!-- Custom Range Inputs -->
                 <div class="control-group custom-range-group">
                     <div class="input-inline">
-                        <label for="from-time">From:</label>
+                        <label for="from-time" class="input-label-fixed">From:</label>
                         <input type="datetime-local" id="from-time" class="datetime-input" lang="en-GB" required>
                     </div>
 
                     <div class="input-inline">
-                        <label for="till-time">Till:</label>
+                        <label for="till-time" class="input-label-fixed">Till:</label>
                         <input type="datetime-local" id="till-time" class="datetime-input" lang="en-GB" required>
                     </div>
 

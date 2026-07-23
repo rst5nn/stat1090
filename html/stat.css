@@ -208,12 +208,16 @@ body {
 }
 
 .btn-theme-toggle {
-    border-radius: var(--radius-pill);
-    padding: 0.4rem 0.9rem;
-    font-weight: 500;
-    font-size: 0.8rem;
+    border-radius: 50%;
+    width: 34px;
+    height: 34px;
+    padding: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     background: var(--bg-control);
-    border-color: var(--border-color);
+    border: 1px solid var(--border-color);
+    flex-shrink: 0;
 }
 
 /* Segmented Control Pill Groups */
@@ -331,6 +335,16 @@ body {
     color: var(--text-muted);
 }
 
+.input-label-fixed {
+    display: inline-block;
+    min-width: 48px;
+    width: 48px;
+    font-family: 'JetBrains Mono', 'Fira Code', 'Roboto Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--text-muted);
+}
+
 .datetime-input {
     font-family: 'JetBrains Mono', 'Fira Code', 'Roboto Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace !important;
     font-size: 0.8rem;
@@ -417,6 +431,11 @@ body {
     background: var(--bg-badge);
     color: var(--text-main);
     border: 1px solid var(--border-color);
+    font-family: 'JetBrains Mono', 'Fira Code', 'Roboto Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace !important;
+}
+
+#active-range-display {
+    font-family: 'JetBrains Mono', 'Fira Code', 'Roboto Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace !important;
 }
 
 /* Graphs Vertical Grid */
@@ -630,6 +649,12 @@ body {
 
 /* Mobile Responsiveness */
 @media (max-width: 900px) {
+    .main-header {
+        padding: 0.65rem 0.85rem;
+        flex-wrap: wrap;
+        gap: 0.6rem;
+    }
+
     .app-header {
         padding: 0.6rem 0.85rem;
     }
@@ -640,6 +665,20 @@ body {
 
     .header-brand h1 {
         font-size: 1.05rem;
+    }
+
+    .header-controls {
+        flex-wrap: wrap;
+        gap: 0.5rem;
+    }
+
+    .status-indicator {
+        flex-wrap: wrap;
+        gap: 0.4rem;
+    }
+
+    .timestamp-badge {
+        font-size: 0.72rem;
     }
 
     .control-panel {
@@ -666,6 +705,22 @@ body {
     .datetime-input {
         width: 100%;
         font-size: 0.82rem;
+    }
+
+    .active-window-bar {
+        flex-wrap: wrap;
+        gap: 0.4rem;
+        padding: 0.5rem 0.75rem;
+    }
+
+    .window-info {
+        flex-wrap: wrap;
+        gap: 0.4rem;
+    }
+
+    #active-range-display {
+        font-size: 0.75rem;
+        word-break: break-all;
     }
 
     .card-header {
