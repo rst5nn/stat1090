@@ -1,0 +1,16 @@
+[Unit]
+Description=stat1090 ADS-B Graph & Performance Statistics Service
+After=network.target collectd.service
+Wants=collectd.service
+
+[Service]
+Type=simple
+User=root
+ExecStart=/usr/share/stat1090/service-stat1090.sh
+Restart=always
+RestartSec=5
+Nice=19
+CPUSchedulingPolicy=idle
+
+[Install]
+WantedBy=multi-user.target
