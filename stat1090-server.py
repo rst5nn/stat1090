@@ -100,6 +100,7 @@ class Stat1090RequestHandler(SimpleHTTPRequestHandler):
 
         # Convert ISO datetime (e.g. 2026-07-22T14:30) to epoch timestamp if passed from datetime-local input
         clean_from = self.convert_iso_to_epoch(clean_from)
+        clean_till = self.convert_iso_to_epoch(clean_till)
         theme_val = query.get("theme", query.get("colorscheme", ["dark"]))[0].lower()
         if theme_val in ("light", "bright"):
             theme_val = "light"

@@ -160,8 +160,16 @@ parse_time() {
         echo "end-$val"
         return
     fi
+    if [[ "$val" =~ ^[0-9]{9,12}$ ]]; then
+        echo "$val"
+        return
+    fi
     local epoch
-    epoch=$(date -d "$val" +%s 2>/dev/null || date -d "${val/T/ }" +%s 2>/dev/null)
+    if [[ "$val" =~ ^@?[0-9]{9,12}$ ]]; then
+        epoch=$(date -d "@${val#@}" +%s 2>/dev/null)
+    else
+        epoch=$(date -d "$val" +%s 2>/dev/null || date -d "${val/T/ }" +%s 2>/dev/null)
+    fi
     if [[ -n "$epoch" ]]; then
         echo "$epoch"
     else
