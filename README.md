@@ -102,6 +102,35 @@ GET /api/graph?type={range|signal|aircraft|messages|tracks}&from={start}&till={e
 
 ---
 
+## Collectd Disk Flushing & Backup Setup
+
+Collectd saves statistics to memory (`tmpfs` at `/run/collectd`) to minimize SD card wear. Before running backups, statistics should be periodically flushed to disk (`/var/lib/collectd`).
+
+### 1. Configure Disk Flushing Cron (`/etc/cron.d/collectd_to_disk`)
+
+Create a cron job to flush collectd data to disk periodically (e.g. daily at 02:00):
+
+```bash
+sudo nvim /etc/cron.d/collectd_to_disk
+```
+
+Add the following cron entry:
+
+```cron
+0 2 * * * root systemctl is-active --quiet collectd && systemctl restart collectd
+```
+
+### 2. Backup Script (`backup-collectd.sh`)
+
+The included `backup-collectd.sh` script archives `/var/lib/collectd`, uploads the tarball to Google Drive via `rclone copy` (`gdrive:ADSB`), and rotates backups to keep only the 7 newest archives:
+
+```bash
+# Run backup manually
+sudo /usr/share/stat1090/backup-collectd.sh
+```
+
+---
+
 ## License
 
 MIT License.

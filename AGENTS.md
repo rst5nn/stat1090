@@ -56,7 +56,7 @@ collectd RRD databases (/run/collectd/localhost/dump1090-*/  or  /var/lib/collec
 | `nginx-stat1090.conf` | Nginx config snippet. Same aliasing and proxying as the Lighttpd config. |
 | `install.sh` | Installer. Creates `stat1090` system user, copies files to `/usr/share/stat1090`, installs systemd service, configures Lighttpd if present. |
 | `uninstall.sh` | Cleanup. Stops service, removes configs, schedules directory removal via temp script. |
-| `backup-collectd.sh` | Backup script. Restarts collectd to flush, tars `/var/lib/collectd`, uploads to Google Drive via rclone, rotates to keep 7 newest. |
+| `backup-collectd.sh` | Backup script. Archives `/var/lib/collectd`, uploads to Google Drive via rclone, rotates to keep 7 newest (flushing to disk configured via `/etc/cron.d/collectd_to_disk`). |
 
 ## Graph Types & Visual Styling
 

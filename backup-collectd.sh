@@ -18,16 +18,7 @@ fi
 
 echo "[$(date +'%Y-%m-%d %H:%M:%S')] Starting collectd backup..."
 
-# 1. Flush collectd memory statistics to disk
-echo "[+] Flushing collectd data to disk by restarting collectd service..."
-if systemctl is-active --quiet collectd; then
-    systemctl restart collectd
-    sleep 3
-elif [[ -x /usr/share/graphs1090/writeback.sh ]]; then
-    /usr/share/graphs1090/writeback.sh
-fi
-
-# 2. Archive collectd directory
+# 1. Archive collectd directory
 echo "[+] Creating archive $ARCHIVE..."
 if [[ -d /var/lib/collectd ]]; then
     tar -czf "$ARCHIVE" -C /var/lib collectd
