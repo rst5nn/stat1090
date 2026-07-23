@@ -290,6 +290,15 @@ case "$TYPE" in
             "DEF:median=$(check_rrd "$DB_DIR/dump1090_dbfs-median.rrd"):value:AVERAGE" \
             "DEF:peak=$(check_rrd "$DB_DIR/dump1090_dbfs-peak_signal.rrd"):value:MAX" \
             "DEF:noise=$(check_rrd "$DB_DIR/dump1090_dbfs-noise.rrd"):value:AVERAGE" \
+            "DEF:msg_local=$(check_rrd "$DB_DIR/dump1090_messages-local_accepted.rrd"):value:AVERAGE" \
+            "DEF:msg_remote=$(check_rrd "$DB_DIR/dump1090_messages-remote_accepted.rrd"):value:AVERAGE" \
+            "DEF:strong=$(check_rrd "$DB_DIR/dump1090_messages-strong_signals.rrd"):value:AVERAGE" \
+            "CDEF:messages=msg_local,msg_remote,ADDNAN" \
+            "VDEF:strong_total=strong,TOTAL" \
+            "VDEF:messages_total=messages,TOTAL" \
+            "CDEF:hundred=messages,UN,100,100,IF" \
+            "CDEF:strong_percent=strong_total,hundred,*,messages_total,/" \
+            "VDEF:strong_percent_vdef=strong_percent,LAST" \
             "CDEF:mes=median,UN,signal,median,IF" \
             "CDEF:bot=noise,UN,-45,-45,IF" \
             "CDEF:noise_area=noise,45,+" \
@@ -299,7 +308,8 @@ case "$TYPE" in
             "LINE1.5:mes#$MEDIAN_SIGNAL:Median Signal   " \
             "LINE1.5:min#$MIN_SIGNAL:Min Signal   " \
             "LINE1.5:noise#$NOISE_LINE:Noise Floor   " \
-            "HRULE:-3#$SILVER:-3dBFS\\c:dashes=5,5" \
+            "HRULE:-3#$SILVER:-3dBFS   :dashes=5,5" \
+            "GPRINT:strong_percent_vdef:Messages > -3dBFS\:%1.1lf%% of messages\c" \
             --watermark "stat1090 | Rendered: $NOW_STR" &>/dev/null
         ;;
 
