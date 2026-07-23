@@ -299,6 +299,7 @@ case "$TYPE" in
             "CDEF:hundred=messages,UN,100,100,IF" \
             "CDEF:strong_percent=strong_total,hundred,*,messages_total,/" \
             "VDEF:strong_percent_vdef=strong_percent,LAST" \
+            "VDEF:avgnoise=noise,AVERAGE" \
             "CDEF:mes=median,UN,signal,median,IF" \
             "CDEF:bot=noise,UN,-45,-45,IF" \
             "CDEF:noise_area=noise,45,+" \
@@ -307,7 +308,8 @@ case "$TYPE" in
             "LINE1.5:peak#$PEAK_SIGNAL:Peak Signal   " \
             "LINE1.5:mes#$MEDIAN_SIGNAL:Median Signal   " \
             "LINE1.5:min#$MIN_SIGNAL:Min Signal   " \
-            "LINE1.5:noise#$NOISE_LINE:Noise Floor   " \
+            "LINE1.5:noise#$NOISE_LINE:Noise Floor " \
+            "GPRINT:avgnoise:Avg\:%4.1lf   " \
             "HRULE:-3#$SILVER:-3dBFS   :dashes=5,5" \
             "GPRINT:strong_percent_vdef:Messages > -3dBFS\: %1.1lf%% of messages\c" \
             --watermark "stat1090 | Rendered: $NOW_STR" &>/dev/null

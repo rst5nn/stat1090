@@ -119,41 +119,7 @@
 
         <!-- Main Graphs Grid (5 Dedicated Core Graphs) -->
         <main class="graphs-grid">
-            <!-- 1. Range Graph -->
-            <article class="graph-card">
-                <div class="card-header">
-                    <div class="card-title">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="title-icon icon-cyan">
-                            <circle cx="12" cy="12" r="10"></circle>
-                            <circle cx="12" cy="12" r="6"></circle>
-                            <circle cx="12" cy="12" r="2"></circle>
-                        </svg>
-                        <h2>Range</h2>
-                    </div>
-                    <div class="card-actions">
-                        <button class="btn btn-sm btn-outline" onclick="saveGraphImage('range', this)" title="Save Image PNG">
-                            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                                <polyline points="7 10 12 15 17 10"></polyline>
-                                <line x1="12" y1="15" x2="12" y2="3"></line>
-                            </svg>
-                            <span>Save</span>
-                        </button>
-                        <button class="btn btn-sm btn-outline" onclick="openModal('range')" title="Full view">
-                            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"></path>
-                            </svg>
-                            <span>Expand</span>
-                        </button>
-                    </div>
-                </div>
-                <div class="card-body img-container" onclick="openModal('range')">
-                    <div class="loader-overlay" id="loader-range"><div class="spinner"></div></div>
-                    <img id="img-range" src="" alt="Range Graph" class="graph-img">
-                </div>
-            </article>
-
-            <!-- 2. Signal Level Graph -->
+            <!-- 1. Signal Level Graph -->
             <article class="graph-card">
                 <div class="card-header">
                     <div class="card-title">
@@ -186,6 +152,40 @@
                 <div class="card-body img-container" onclick="openModal('signal')">
                     <div class="loader-overlay" id="loader-signal"><div class="spinner"></div></div>
                     <img id="img-signal" src="" alt="Signal Level Graph" class="graph-img">
+                </div>
+            </article>
+
+            <!-- 2. Range Graph -->
+            <article class="graph-card">
+                <div class="card-header">
+                    <div class="card-title">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="title-icon icon-cyan">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <circle cx="12" cy="12" r="6"></circle>
+                            <circle cx="12" cy="12" r="2"></circle>
+                        </svg>
+                        <h2>Range</h2>
+                    </div>
+                    <div class="card-actions">
+                        <button class="btn btn-sm btn-outline" onclick="saveGraphImage('range', this)" title="Save Image PNG">
+                            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                <polyline points="7 10 12 15 17 10"></polyline>
+                                <line x1="12" y1="15" x2="12" y2="3"></line>
+                            </svg>
+                            <span>Save</span>
+                        </button>
+                        <button class="btn btn-sm btn-outline" onclick="openModal('range')" title="Full view">
+                            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"></path>
+                            </svg>
+                            <span>Expand</span>
+                        </button>
+                    </div>
+                </div>
+                <div class="card-body img-container" onclick="openModal('range')">
+                    <div class="loader-overlay" id="loader-range"><div class="spinner"></div></div>
+                    <img id="img-range" src="" alt="Range Graph" class="graph-img">
                 </div>
             </article>
 
