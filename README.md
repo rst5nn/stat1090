@@ -104,21 +104,18 @@ GET /api/graph?type={range|signal|aircraft|messages|tracks}&from={start}&till={e
 
 ## Collectd Disk Flushing & Backup Setup
 
-Collectd saves statistics to memory (`tmpfs` at `/run/collectd`) to minimize SD card wear. Before running backups, statistics should be periodically flushed to disk (`/var/lib/collectd`).
+Collectd saves statistics to memory (`tmpfs` at `/run/collectd`) to minimize SD card wear.
 
-### 1. Configure Disk Flushing Cron (`/etc/cron.d/collectd_to_disk`)
+### 1. Collectd Disk Flushing Cron (`/etc/cron.d/collectd_to_disk`)
 
-Create a cron job to flush collectd data to disk periodically (e.g. daily at 02:00):
-
-```bash
-sudo nvim /etc/cron.d/collectd_to_disk
-```
-
-Add the following cron entry:
+When `graphs1090` is installed on your receiver, `/etc/cron.d/collectd_to_disk` is already pre-configured:
 
 ```cron
-0 2 * * * root systemctl is-active --quiet collectd && systemctl restart collectd
+# restart collectd so data is saved to disk
+52 23 * * * root /bin/systemctl restart collectd
 ```
+
+If configuring on a standalone receiver without `graphs1090`, create `/etc/cron.d/collectd_to_disk` with the entry above to flush statistics to `/var/lib/collectd` daily before backups run.
 
 ### 2. Backup Script (`backup-collectd.sh`)
 
