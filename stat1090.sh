@@ -309,7 +309,7 @@ case "$TYPE" in
             "LINE1.5:min#$MIN_SIGNAL:Min Signal   " \
             "LINE1.5:noise#$NOISE_LINE:Noise Floor   " \
             "HRULE:-3#$SILVER:-3dBFS   :dashes=5,5" \
-            "GPRINT:strong_percent_vdef:Messages > -3dBFS\:%1.1lf%% of messages\c" \
+            "GPRINT:strong_percent_vdef:Messages > -3dBFS\: %1.1lf%% of messages\c" \
             --watermark "stat1090 | Rendered: $NOW_STR" &>/dev/null
         ;;
 
