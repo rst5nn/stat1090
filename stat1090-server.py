@@ -37,7 +37,7 @@ def find_stat_sh():
     return candidates[0]
 
 STAT_SH = find_stat_sh()
-ALLOWED_GRAPHS = {'dump1090', 'messages', 'messages_received', 'message_rate', 'aircraft', 'aircraft_seen', 'tracks', 'tracks_seen', 'adsb_tracks_seen', 'range', 'adsb_range', 'signal', 'signal_level', 'traffic', 'landings', 'departures', 'arrivals', 'traffic_hourly'}
+ALLOWED_GRAPHS = {'dump1090', 'messages', 'messages_received', 'message_rate', 'aircraft', 'aircraft_seen', 'tracks', 'tracks_seen', 'adsb_tracks_seen', 'range', 'adsb_range', 'signal', 'signal_level', 'traffic', 'landings', 'departures', 'arrivals', 'temperature', 'temp'}
 
 def sanitize_time_param(val):
     """Sanitize time inputs to prevent shell injection while allowing timestamps, dates, and relative formats."""

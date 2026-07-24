@@ -451,6 +451,45 @@ case "$TYPE" in
             --watermark "stat1090 | Rendered: $NOW_STR" &>/dev/null
         ;;
 
+    temperature|temp)
+        TEMP_RRD=""
+        TEMP_SCALE=1
+        DB_BASE=$(dirname "$DB_DIR")
+        for rrd in "$DB_BASE/stat1090-localhost/temperature-"*.rrd; do
+            [[ -f "$rrd" ]] && { TEMP_RRD="$rrd"; break; }
+        done
+        if [[ -z "$TEMP_RRD" && -f "$DB_BASE/table-localhost/gauge-cpu_temp.rrd" ]]; then
+            TEMP_RRD="$DB_BASE/table-localhost/gauge-cpu_temp.rrd"
+            TEMP_SCALE=1000
+        fi
+        [[ -z "$TEMP_RRD" ]] && TEMP_RRD="$EMPTY_RRD"
+
+        rrdtool graph \
+            "$TMP_OUT" \
+            "${START_OPT[@]}" \
+            "${END_OPT[@]}" \
+            --width "$width" \
+            --height "$height" \
+            "${COLORS[@]}" \
+            --title "System Temperature" \
+            --vertical-label "°C" \
+            --units-exponent 0 \
+            --lower-limit 20 \
+            --alt-autoscale-max \
+            "TEXTALIGN:center" \
+            "DEF:temp_raw=${TEMP_RRD}:value:AVERAGE" \
+            "CDEF:temp=temp_raw,${TEMP_SCALE},/" \
+            "VDEF:temp_avg=temp,AVERAGE" \
+            "VDEF:temp_max=temp,MAXIMUM" \
+            "VDEF:temp_min=temp,MINIMUM" \
+            "AREA:temp#${NOISE_LINE}44" \
+            "LINE2:temp#$NOISE_LINE:Temperature  " \
+            "GPRINT:temp_avg:Avg\:%4.1lf°C   " \
+            "GPRINT:temp_max:Max\:%4.1lf°C   " \
+            "GPRINT:temp_min:Min\:%4.1lf°C\c" \
+            --watermark "stat1090 | Rendered: $NOW_STR" &>/dev/null
+        ;;
+
     *)
         echo "Unknown graph type: $TYPE"
         exit 1
