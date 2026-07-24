@@ -21,18 +21,18 @@ systemctl stop graphs1090 2>/dev/null || true
 systemctl disable graphs1090 2>/dev/null || true
 
 # 3. Create destination directories
-mkdir -p "$IPATH"/{modules,scripts,html}
+mkdir -p "$IPATH"/{scripts,html}
 mkdir -p /var/lib/collectd/rrd
 mkdir -p /var/lib/stat1090
 
 # 4. Deploy stat1090 files
 cp "$REPO"/stat1090.sh "$IPATH/"
+cp "$REPO"/stat1090.py "$IPATH/"
 cp "$REPO"/stat1090-server.py "$IPATH/"
 cp "$REPO"/service-stat1090.sh "$IPATH/"
 cp "$REPO"/backup-collectd.sh "$IPATH/"
 cp "$REPO"/stat1090.db "$IPATH/"
 cp -r "$REPO"/html/* "$IPATH/html/"
-cp "$REPO"/modules/*.py "$IPATH/modules/"
 cp "$REPO"/scripts/*.sh "$IPATH/scripts/"
 cp "$REPO"/scripts/malarky.conf "$IPATH/scripts/"
 chmod +x "$IPATH"/scripts/*.sh "$IPATH"/*.sh
