@@ -35,6 +35,6 @@ systemctl restart collectd 2>/dev/null || true
 echo "---------------------------------------------------"
 echo " stat1090 uninstalled."
 echo " Preserved: /var/lib/stat1090/ (data/empty.rrd)"
-echo " Preserved: /etc/default/stat1090.cfg (config)"
+echo " Preserved: /etc/default/stat1090.conf (config)"
 echo " Preserved: /var/lib/collectd/rrd/ (RRD database)"
 echo "---------------------------------------------------"

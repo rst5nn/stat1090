@@ -30,7 +30,7 @@ cp "$REPO"/stat1090.sh "$IPATH/"
 cp "$REPO"/stat1090-server.py "$IPATH/"
 cp "$REPO"/service-stat1090.sh "$IPATH/"
 cp "$REPO"/backup-collectd.sh "$IPATH/"
-cp "$REPO"/dump1090.db "$IPATH/"
+cp "$REPO"/stat1090.db "$IPATH/"
 cp -r "$REPO"/html/* "$IPATH/html/"
 cp "$REPO"/modules/*.py "$IPATH/modules/"
 cp "$REPO"/scripts/*.sh "$IPATH/scripts/"
@@ -38,8 +38,8 @@ cp "$REPO"/scripts/malarky.conf "$IPATH/scripts/"
 chmod +x "$IPATH"/scripts/*.sh "$IPATH"/*.sh
 
 # 5. Config files (preserve user config, backup pre-stat1090 collectd.conf)
-if [[ ! -f /etc/default/stat1090.cfg ]]; then
-    cp "$REPO"/stat1090.cfg /etc/default/stat1090.cfg
+if [[ ! -f /etc/default/stat1090.conf ]]; then
+    cp "$REPO"/stat1090.conf /etc/default/stat1090.conf
 fi
 if [[ -f /etc/collectd/collectd.conf ]] && [[ ! -f /etc/collectd/collectd.conf.pre-stat1090 ]]; then
     cp /etc/collectd/collectd.conf /etc/collectd/collectd.conf.pre-stat1090
