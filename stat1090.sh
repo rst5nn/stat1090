@@ -408,6 +408,49 @@ case "$TYPE" in
             "GPRINT:max_s:Max\:%4.0lf/h\c" \
             --watermark "stat1090 | Rendered: $NOW_STR" &>/dev/null
         ;;
+
+
+    traffic|"landings"|"arrivals"|"departures")
+        rrdtool graph \
+            "$TMP_OUT" \
+            "${START_OPT[@]}" \
+            "${END_OPT[@]}" \
+            --width "$width" \
+            --height "$height" \
+            "${COLORS[@]}" \
+            --step 60 \
+            --title "Landings & Departures (Hourly)" \
+            --vertical-label "Cumulative Flights" \
+            --right-axis 1:0 \
+            --right-axis-label "Cumulative Flights" \
+            --right-axis-format "%1.0lf" \
+            --units-exponent 0 \
+            --lower-limit 0 \
+            --upper-limit 5 \
+            --alt-autoscale-max \
+            --y-grid 1:1 \
+            "TEXTALIGN:center" \
+            "DEF:landings_raw=$(check_rrd "$DB_DIR/dump1090_ops-landings.rrd"):value:AVERAGE" \
+            "DEF:departures_raw=$(check_rrd "$DB_DIR/dump1090_ops-departures.rrd"):value:AVERAGE" \
+            "CDEF:landings_clean=landings_raw,UN,0,landings_raw,IF" \
+            "CDEF:departures_clean=departures_raw,UN,0,departures_raw,IF" \
+            "CDEF:landings_base=landings_clean,STEPWIDTH,*" \
+            "CDEF:departures_base=departures_clean,STEPWIDTH,*" \
+            "CDEF:landings_int=landings_base,0.5,+,FLOOR" \
+            "CDEF:departures_int=departures_base,0.5,+,FLOOR" \
+            "CDEF:landings=TIME,3600,%,0,EQ,0,PREV,UN,0,PREV,IF,IF,landings_int,+" \
+            "CDEF:departures=TIME,3600,%,0,EQ,0,PREV,UN,0,PREV,IF,IF,departures_int,+" \
+            "VDEF:max_landings=landings,MAXIMUM" \
+            "VDEF:max_departures=departures,MAXIMUM" \
+            "AREA:landings#${NOISE_LINE}44" \
+            "LINE2:landings#$NOISE_LINE:Landings (Arrivals) " \
+            "GPRINT:max_landings:Max/Hour\:%3.0lf   " \
+            "AREA:departures#${MEDIAN_SIGNAL}44" \
+            "LINE2:departures#$MEDIAN_SIGNAL:Departures           " \
+            "GPRINT:max_departures:Max/Hour\:%3.0lf\c" \
+            --watermark "stat1090 | Rendered: $NOW_STR" &>/dev/null
+        ;;
+
     *)
         echo "Unknown graph type: $TYPE"
         exit 1

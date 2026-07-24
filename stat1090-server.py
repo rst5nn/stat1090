@@ -37,7 +37,7 @@ def find_stat_sh():
     return candidates[0]
 
 STAT_SH = find_stat_sh()
-ALLOWED_GRAPHS = {"range", "signal", "aircraft", "messages", "tracks", "adsb_range", "signal_level", "aircraft_seen", "message_rate", "messages_received", "tracks_seen", "adsb_tracks_seen"}
+ALLOWED_GRAPHS = {'dump1090', 'messages', 'messages_received', 'message_rate', 'aircraft', 'aircraft_seen', 'tracks', 'tracks_seen', 'adsb_tracks_seen', 'range', 'adsb_range', 'signal', 'signal_level', 'traffic', 'landings', 'departures', 'arrivals', 'traffic_hourly'}
 
 def sanitize_time_param(val):
     """Sanitize time inputs to prevent shell injection while allowing timestamps, dates, and relative formats."""
@@ -89,6 +89,8 @@ class Stat1090RequestHandler(SimpleHTTPRequestHandler):
             graph_type = "messages"
         elif graph_type in ("tracks_seen", "adsb_tracks_seen"):
             graph_type = "tracks"
+        elif graph_type in ("landings", "arrivals", "departures"):
+            graph_type = "traffic"
 
         if graph_type not in ALLOWED_GRAPHS:
             self.send_error(400, f"Invalid graph type. Allowed: {', '.join(ALLOWED_GRAPHS)}")

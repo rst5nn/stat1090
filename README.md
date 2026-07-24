@@ -128,6 +128,12 @@ sudo /usr/share/stat1090/backup-collectd.sh
 
 ---
 
+## Future Feature Plans
+
+- **[RWY 29 Spotter & Peak Landing Analytics Plan](file:///home/yk/proj/stat1090/docs/RWY29_SPOTTER_PLAN.md)**: Architectural roadmap for live RWY 29 landing popup alerts & peak arrival frequency graphs.
+
+---
+
 ## License
 
 MIT License.

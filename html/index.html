@@ -220,7 +220,47 @@
                     <img id="img-aircraft" src="" alt="Aircraft Graph" class="graph-img">
                 </div>
             </article>
-        </main>
+
+            <!-- 4. Traffic Graph (Landings & Departures) -->
+            <article class="graph-card">
+                <div class="card-header">
+                    <div class="card-title">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="title-icon icon-emerald">
+                            <path d="M12 2L2 7l10 5 10-5-10-5z"></path>
+                            <path d="M2 17l10 5 10-5"></path>
+                            <path d="M2 12l10 5 10-5"></path>
+                        </svg>
+                        <h2>Landings & Departures</h2>
+                    </div>
+                    <div class="card-actions">
+                        <button class="btn btn-sm btn-outline" onclick="saveGraphImage('traffic', this)" title="Save Image PNG">
+                            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                <polyline points="7 10 12 15 17 10"></polyline>
+                                <line x1="12" y1="15" x2="12" y2="3"></line>
+                            </svg>
+                            <span>Save</span>
+                        </button>
+                        <button class="btn btn-sm btn-outline" onclick="openModal('traffic')" title="Full view">
+                            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"></path>
+                            </svg>
+                            <span>Expand</span>
+                        </button>
+                    </div>
+                </div>
+                <div class="card-body img-container" onclick="openModal('traffic')">
+                    <div class="loader-overlay" id="loader-traffic"><div class="spinner"></div></div>
+                    <img id="img-traffic" src="" alt="Traffic Graph (Landings & Departures)" class="graph-img">
+                </div>
+            </article>
+        
+            
+
+            
+
+            
+</main>
     </div>
 
     <!-- Modal Lightbox for Zoomed Graph -->
