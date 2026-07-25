@@ -473,6 +473,9 @@ case "$TYPE" in
             "${COLORS[@]}" \
             --title "System Temperature" \
             --vertical-label "°C" \
+            --right-axis 1:0 \
+            --right-axis-label "°C" \
+            --right-axis-format "%1.0lf" \
             --units-exponent 0 \
             --lower-limit 20 \
             --alt-autoscale-max \
