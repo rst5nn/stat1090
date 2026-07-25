@@ -493,6 +493,46 @@ case "$TYPE" in
             --watermark "stat1090 | Rendered: $NOW_STR" &>/dev/null
         ;;
 
+    memory|mem)
+        MEM_USED="$(check_rrd "$DB_DIR/stat1090_memory-used.rrd")"
+        MEM_BUFFERS="$(check_rrd "$DB_DIR/stat1090_memory-buffers.rrd")"
+        MEM_CACHED="$(check_rrd "$DB_DIR/stat1090_memory-cached.rrd")"
+        MEM_FREE="$(check_rrd "$DB_DIR/stat1090_memory-free.rrd")"
+
+        rrdtool graph \
+            "$TMP_OUT" \
+            "${START_OPT[@]}" \
+            "${END_OPT[@]}" \
+            --width "$width" \
+            --height "$height" \
+            "${COLORS[@]}" \
+            --title "Memory Utilization" \
+            --vertical-label "Bytes" \
+            --right-axis 1:0 \
+            --right-axis-label "Bytes" \
+            -b 1024 \
+            -M \
+            --lower-limit 0 \
+            "TEXTALIGN:center" \
+            "DEF:used=${MEM_USED}:value:AVERAGE" \
+            "DEF:buffers=${MEM_BUFFERS}:value:AVERAGE" \
+            "DEF:cached=${MEM_CACHED}:value:AVERAGE" \
+            "DEF:free=${MEM_FREE}:value:AVERAGE" \
+            "VDEF:used_last=used,LAST" \
+            "VDEF:buffers_last=buffers,LAST" \
+            "VDEF:cached_last=cached,LAST" \
+            "VDEF:free_last=free,LAST" \
+            "AREA:used#${NOISE_LINE}aa:Used\::STACK" \
+            "GPRINT:used_last:%4.1lf%sB   " \
+            "AREA:buffers#${MEDIAN_SIGNAL}aa:Buffers\::STACK" \
+            "GPRINT:buffers_last:%4.1lf%sB\c" \
+            "AREA:cached#${PEAK_SIGNAL}aa:Cache\::STACK" \
+            "GPRINT:cached_last:%4.1lf%sB   " \
+            "AREA:free#88888844:Free\::STACK" \
+            "GPRINT:free_last:%4.1lf%sB\c" \
+            --watermark "stat1090 | Rendered: $NOW_STR" &>/dev/null
+        ;;
+
     *)
         echo "Unknown graph type: $TYPE"
         exit 1

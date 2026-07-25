@@ -12,7 +12,7 @@ let refreshTimer = null;
 let refreshIntervalSeconds = parseInt(localStorage.getItem('stat1090_refresh') || '60', 10);
 let activeTheme = localStorage.getItem('stat1090_theme') || 'dark';
 
-const GRAPH_TYPES = ['signal', 'range', 'aircraft', 'traffic', 'temperature'];
+const GRAPH_TYPES = ['signal', 'range', 'aircraft', 'traffic', 'temperature', 'memory'];
 
 const PRESET_LABELS = {
     '2h': 'Last 2 Hours',

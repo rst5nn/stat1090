@@ -57,6 +57,9 @@ def handle_config(root):
                 collectd.register_read(callback=read_temperature,
                                        name='stat1090_temp.' + instance_name,
                                        interval=60)
+                collectd.register_read(callback=read_memory,
+                                       name='stat1090_mem.' + instance_name,
+                                       interval=60)
             else:
                 collectd.warning('No stat1090 URL defined in /etc/collectd/collectd.conf for ' + instance_name)
 
@@ -937,3 +940,40 @@ def read_temperature(data=None):
         )
         val.dispatch(values=[temp_milli / 1000.0])
 
+
+# =====================================================================
+# stat1090 Memory Utilization Collector Module
+# =====================================================================
+def read_memory(data=None):
+    """Read /proc/meminfo and dispatch used, buffers, cached, free (in bytes)."""
+    try:
+        with open("/proc/meminfo", "r") as f:
+            contents = f.read()
+    except Exception:
+        return
+
+    memdata = {}
+    for line in contents.split('\n'):
+        words = line.split()
+        if len(words) > 1:
+            memdata[words[0].split(':')[0]] = words[1]
+
+    try:
+        # htop-style calculation (same as graphs1090/system_stats.py)
+        total = 1024 * int(memdata['MemTotal'])
+        free = 1024 * int(memdata['MemFree'])
+        buffers = 1024 * int(memdata['Buffers'])
+        cached = 1024 * (int(memdata['Cached']) + int(memdata['SReclaimable']) - int(memdata['Shmem']))
+        used = total - free - buffers - cached
+    except (KeyError, ValueError):
+        return
+
+    now = time.time()
+    val = collectd.Values(
+        host='', plugin='stat1090', plugin_instance='localhost',
+        type='stat1090_memory', time=now
+    )
+    val.dispatch(type_instance='used', values=[used])
+    val.dispatch(type_instance='buffers', values=[buffers])
+    val.dispatch(type_instance='cached', values=[cached])
+    val.dispatch(type_instance='free', values=[free])
