@@ -525,7 +525,7 @@ case "$TYPE" in
             "AREA:used#${NOISE_LINE}aa:Used\::STACK" \
             "GPRINT:used_last:%4.1lf%sB   " \
             "AREA:buffers#${MEDIAN_SIGNAL}aa:Buffers\::STACK" \
-            "GPRINT:buffers_last:%4.1lf%sB\c" \
+            "GPRINT:buffers_last:%4.1lf%sB   " \
             "AREA:cached#${PEAK_SIGNAL}aa:Cache\::STACK" \
             "GPRINT:cached_last:%4.1lf%sB   " \
             "AREA:free#88888844:Free\::STACK" \
