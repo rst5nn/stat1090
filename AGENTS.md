@@ -26,7 +26,7 @@ stat1090.sh (bash + rrdtool graph → PNG)
   │
   │  reads .rrd files
   ▼
-collectd RRD databases (/run/collectd/localhost/dump1090-*/  and  /run/collectd/localhost/stat1090-*/)
+collectd RRD databases (/run/collectd/localhost/stat1090-*/)
 ```
 
 ### Data Flow & Unified Collector
@@ -44,7 +44,7 @@ collectd RRD databases (/run/collectd/localhost/dump1090-*/  and  /run/collectd/
 | File | Role |
 |------|------|
 | `stat1090.py` | Unified Python collectd plugin. Combines core ADS-B statistics, GNSS-resilient traffic spotter, and thermal zone collectors. |
-| `stat1090.db` | Custom TypesDB file containing type definitions for dump1090 metrics, `dump1090_ops` (traffic), and `temperature`. |
+| `stat1090.db` | Custom TypesDB file containing type definitions for stat1090 metrics, `stat1090_ops` (traffic), and `stat1090_temperature`. |
 | `stat1090.conf` | Configuration file deployed to `/etc/default/stat1090.conf`. Controls spotter speed limits, max altitude, commercial prefixes, and allowed categories. |
 | `collectd-stat1090.conf` | Standalone collectd config template. Deployed to `/etc/collectd/collectd.conf`. |
 | `stat1090-server.py` | Multithreaded Python HTTP server (`ThreadingHTTPServer`). Serves static files from `html/` and handles `/api/graph` + `/api/status`. |
@@ -67,10 +67,10 @@ All graphs follow a high-contrast dark/bright design system with mirrored Y-axes
 
 | Type | RRD files used | Key metrics & Visual Features |
 |------|---------------|-------------------------------|
-| `range` | `dump1090_range-max_range.rrd`, `dump1090_range-minimum.rrd`, `dump1090_range-median.rrd` | Max range (`#38bdf8`), peak distance line (`#818cf8`), average max range (`#888888`), median distance (`#fbbf24`), closest distance (`#f43f5e`). |
-| `signal` | `dump1090_dbfs-signal.rrd`, `dump1090_dbfs-min_signal.rrd`, `dump1090_dbfs-median.rrd`, `dump1090_dbfs-peak_signal.rrd`, `dump1090_dbfs-noise.rrd` | Peak signal (`#f43f5e`), median signal (`#38bdf8`), min signal (`#fbbf24`), noise floor line (`#34d399`), noise area fill, `-3 dBFS` reference line. |
-| `aircraft` | `dump1090_aircraft-recent.rrd`, `dump1090_gps-recent.rrd` | Total tracked area fill (`#1c3d2e`/`#E6F4EA`) with crisp mint green boundary (`#34d399`), ADS-B position count (`#38bdf8`). |
-| `traffic` | `dump1090_ops-landings.rrd`, `dump1090_ops-departures.rrd` | Cumulative hourly flight counter (sawtooth area chart resetting on the hour). Landings (`#34d399`), Departures (`#38bdf8`), Max/Hour peak stats. |
+| `range` | `stat1090_range-max_range.rrd`, `stat1090_range-minimum.rrd`, `stat1090_range-median.rrd` | Max range (`#38bdf8`), peak distance line (`#818cf8`), average max range (`#888888`), median distance (`#fbbf24`), closest distance (`#f43f5e`). |
+| `signal` | `stat1090_dbfs-signal.rrd`, `stat1090_dbfs-min_signal.rrd`, `stat1090_dbfs-median.rrd`, `stat1090_dbfs-peak_signal.rrd`, `stat1090_dbfs-noise.rrd` | Peak signal (`#f43f5e`), median signal (`#38bdf8`), min signal (`#fbbf24`), noise floor line (`#34d399`), noise area fill, `-3 dBFS` reference line. |
+| `aircraft` | `stat1090_aircraft-recent.rrd`, `stat1090_gps-recent.rrd` | Total tracked area fill (`#1c3d2e`/`#E6F4EA`) with crisp mint green boundary (`#34d399`), ADS-B position count (`#38bdf8`). |
+| `traffic` | `stat1090_ops-landings.rrd`, `stat1090_ops-departures.rrd` | Cumulative hourly flight counter (sawtooth area chart resetting on the hour). Landings (`#34d399`), Departures (`#38bdf8`), Max/Hour peak stats. |
 | `temperature` | `stat1090-localhost/temperature-*.rrd` (or `table-localhost/gauge-cpu_temp.rrd`) | System CPU/GPU thermal zone temperatures in °C. Symmetrical left and right Y-axes (`°C`), Avg/Max/Min GPRINT stats. |
 
 ---

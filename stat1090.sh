@@ -140,10 +140,10 @@ TILL_VAL="${4:-now}"
 HOST_NAME="${5:-localhost}"
 CUSTOM_DB="${6:-$DB}"
 
-DB_DIR="${CUSTOM_DB}/${HOST_NAME}/dump1090-${HOST_NAME}"
+DB_DIR="${CUSTOM_DB}/${HOST_NAME}/stat1090-${HOST_NAME}"
 if [[ ! -d "$DB_DIR" ]]; then
-    # Fallback search for any dump1090 folder
-    FOUND_DB=$(find "$CUSTOM_DB" -maxdepth 2 -type d -name "dump1090-*" | head -n 1)
+    # Fallback search for any stat1090 folder
+    FOUND_DB=$(find "$CUSTOM_DB" -maxdepth 2 -type d -name "stat1090-*" | head -n 1)
     if [[ -n "$FOUND_DB" ]]; then
         DB_DIR="$FOUND_DB"
     fi
@@ -203,12 +203,12 @@ case "$TYPE" in
             --lower-limit 0 \
             --units-exponent 0 \
             "TEXTALIGN:center" \
-            "DEF:all=$(check_rrd "$DB_DIR/dump1090_aircraft-recent.rrd"):total:AVERAGE" \
-            "DEF:all_max=$(check_rrd "$DB_DIR/dump1090_aircraft-recent.rrd"):total:MAX" \
-            "DEF:pos=$(check_rrd "$DB_DIR/dump1090_aircraft-recent.rrd"):positions:AVERAGE" \
-            "DEF:mlat=$(check_rrd "$DB_DIR/dump1090_mlat-recent.rrd"):value:AVERAGE" \
-            "DEF:tisb=$(check_rrd "$DB_DIR/dump1090_tisb-recent.rrd"):value:AVERAGE" \
-            "DEF:rgps=$(check_rrd "$DB_DIR/dump1090_gps-recent.rrd"):value:AVERAGE" \
+            "DEF:all=$(check_rrd "$DB_DIR/stat1090_aircraft-recent.rrd"):total:AVERAGE" \
+            "DEF:all_max=$(check_rrd "$DB_DIR/stat1090_aircraft-recent.rrd"):total:MAX" \
+            "DEF:pos=$(check_rrd "$DB_DIR/stat1090_aircraft-recent.rrd"):positions:AVERAGE" \
+            "DEF:mlat=$(check_rrd "$DB_DIR/stat1090_mlat-recent.rrd"):value:AVERAGE" \
+            "DEF:tisb=$(check_rrd "$DB_DIR/stat1090_tisb-recent.rrd"):value:AVERAGE" \
+            "DEF:rgps=$(check_rrd "$DB_DIR/stat1090_gps-recent.rrd"):value:AVERAGE" \
             "CDEF:tisb0=tisb,UN,0,tisb,IF" \
             "CDEF:noloc=all,pos,-" \
             "CDEF:cgps=pos,tisb0,-,mlat,-" \
@@ -253,10 +253,10 @@ case "$TYPE" in
             --units-exponent 0 \
             --lower-limit 0 \
             "TEXTALIGN:center" \
-            "DEF:drange=$(check_rrd "$DB_DIR/dump1090_range-max_range.rrd"):value:MAX" \
-            "DEF:drange_a=$(check_rrd "$DB_DIR/dump1090_range-max_range.rrd"):value:AVERAGE" \
-            "DEF:dmin=$(check_rrd "$DB_DIR/dump1090_range-minimum.rrd"):value:MIN" \
-            "DEF:dmedian=$(check_rrd "$DB_DIR/dump1090_range-median.rrd"):value:AVERAGE" \
+            "DEF:drange=$(check_rrd "$DB_DIR/stat1090_range-max_range.rrd"):value:MAX" \
+            "DEF:drange_a=$(check_rrd "$DB_DIR/stat1090_range-max_range.rrd"):value:AVERAGE" \
+            "DEF:dmin=$(check_rrd "$DB_DIR/stat1090_range-minimum.rrd"):value:MIN" \
+            "DEF:dmedian=$(check_rrd "$DB_DIR/stat1090_range-median.rrd"):value:AVERAGE" \
             "CDEF:range=drange,$unitconv,*" \
             "CDEF:range_a=drange_a,$unitconv,*" \
             "CDEF:min=dmin,$unitconv,*" \
@@ -293,14 +293,14 @@ case "$TYPE" in
             --lower-limit -45 \
             --rigid \
             "TEXTALIGN:center" \
-            "DEF:signal=$(check_rrd "$DB_DIR/dump1090_dbfs-signal.rrd"):value:AVERAGE" \
-            "DEF:min=$(check_rrd "$DB_DIR/dump1090_dbfs-min_signal.rrd"):value:MIN" \
-            "DEF:median=$(check_rrd "$DB_DIR/dump1090_dbfs-median.rrd"):value:AVERAGE" \
-            "DEF:peak=$(check_rrd "$DB_DIR/dump1090_dbfs-peak_signal.rrd"):value:MAX" \
-            "DEF:noise=$(check_rrd "$DB_DIR/dump1090_dbfs-noise.rrd"):value:AVERAGE" \
-            "DEF:msg_local=$(check_rrd "$DB_DIR/dump1090_messages-local_accepted.rrd"):value:AVERAGE" \
-            "DEF:msg_remote=$(check_rrd "$DB_DIR/dump1090_messages-remote_accepted.rrd"):value:AVERAGE" \
-            "DEF:strong=$(check_rrd "$DB_DIR/dump1090_messages-strong_signals.rrd"):value:AVERAGE" \
+            "DEF:signal=$(check_rrd "$DB_DIR/stat1090_dbfs-signal.rrd"):value:AVERAGE" \
+            "DEF:min=$(check_rrd "$DB_DIR/stat1090_dbfs-min_signal.rrd"):value:MIN" \
+            "DEF:median=$(check_rrd "$DB_DIR/stat1090_dbfs-median.rrd"):value:AVERAGE" \
+            "DEF:peak=$(check_rrd "$DB_DIR/stat1090_dbfs-peak_signal.rrd"):value:MAX" \
+            "DEF:noise=$(check_rrd "$DB_DIR/stat1090_dbfs-noise.rrd"):value:AVERAGE" \
+            "DEF:msg_local=$(check_rrd "$DB_DIR/stat1090_messages-local_accepted.rrd"):value:AVERAGE" \
+            "DEF:msg_remote=$(check_rrd "$DB_DIR/stat1090_messages-remote_accepted.rrd"):value:AVERAGE" \
+            "DEF:strong=$(check_rrd "$DB_DIR/stat1090_messages-strong_signals.rrd"):value:AVERAGE" \
             "CDEF:messages=msg_local,msg_remote,ADDNAN" \
             "VDEF:strong_total=strong,TOTAL" \
             "VDEF:messages_total=messages,TOTAL" \
@@ -341,11 +341,11 @@ case "$TYPE" in
             --units-exponent 0 \
             --lower-limit 0 \
             "TEXTALIGN:center" \
-            "DEF:msg_local=$(check_rrd "$DB_DIR/dump1090_messages-local_accepted.rrd"):value:AVERAGE" \
-            "DEF:msg_local_max=$(check_rrd "$DB_DIR/dump1090_messages-local_accepted.rrd"):value:MAX" \
-            "DEF:msg_remote=$(check_rrd "$DB_DIR/dump1090_messages-remote_accepted.rrd"):value:AVERAGE" \
-            "DEF:msg_remote_max=$(check_rrd "$DB_DIR/dump1090_messages-remote_accepted.rrd"):value:MAX" \
-            "DEF:strong=$(check_rrd "$DB_DIR/dump1090_messages-strong_signals.rrd"):value:AVERAGE" \
+            "DEF:msg_local=$(check_rrd "$DB_DIR/stat1090_messages-local_accepted.rrd"):value:AVERAGE" \
+            "DEF:msg_local_max=$(check_rrd "$DB_DIR/stat1090_messages-local_accepted.rrd"):value:MAX" \
+            "DEF:msg_remote=$(check_rrd "$DB_DIR/stat1090_messages-remote_accepted.rrd"):value:AVERAGE" \
+            "DEF:msg_remote_max=$(check_rrd "$DB_DIR/stat1090_messages-remote_accepted.rrd"):value:MAX" \
+            "DEF:strong=$(check_rrd "$DB_DIR/stat1090_messages-strong_signals.rrd"):value:AVERAGE" \
             "CDEF:messages=msg_local,msg_remote,ADDNAN" \
             "CDEF:messages_max=msg_local_max,msg_remote_max,ADDNAN" \
             "VDEF:avgmsg=messages,AVERAGE" \
@@ -381,8 +381,8 @@ case "$TYPE" in
             --units-exponent 0 \
             --lower-limit 0 \
             "TEXTALIGN:center" \
-            "DEF:all=$(check_rrd "$DB_DIR/dump1090_tracks-all.rrd"):value:AVERAGE" \
-            "DEF:single=$(check_rrd "$DB_DIR/dump1090_tracks-single_message.rrd"):value:AVERAGE" \
+            "DEF:all=$(check_rrd "$DB_DIR/stat1090_tracks-all.rrd"):value:AVERAGE" \
+            "DEF:single=$(check_rrd "$DB_DIR/stat1090_tracks-single_message.rrd"):value:AVERAGE" \
             "CDEF:s=single,3600,*" \
             "CDEF:m=all,3600,*,s,-" \
             "CDEF:s8=s,480,TRENDNAN,4.1,*" \
@@ -430,8 +430,8 @@ case "$TYPE" in
             --alt-autoscale-max \
             --y-grid 1:1 \
             "TEXTALIGN:center" \
-            "DEF:landings_raw=$(check_rrd "$DB_DIR/dump1090_ops-landings.rrd"):value:AVERAGE" \
-            "DEF:departures_raw=$(check_rrd "$DB_DIR/dump1090_ops-departures.rrd"):value:AVERAGE" \
+            "DEF:landings_raw=$(check_rrd "$DB_DIR/stat1090_ops-landings.rrd"):value:AVERAGE" \
+            "DEF:departures_raw=$(check_rrd "$DB_DIR/stat1090_ops-departures.rrd"):value:AVERAGE" \
             "CDEF:landings_clean=landings_raw,UN,0,landings_raw,IF" \
             "CDEF:departures_clean=departures_raw,UN,0,departures_raw,IF" \
             "CDEF:landings_base=landings_clean,STEPWIDTH,*" \
@@ -455,7 +455,7 @@ case "$TYPE" in
         TEMP_RRD=""
         TEMP_SCALE=1
         DB_BASE=$(dirname "$DB_DIR")
-        for rrd in "$DB_BASE/stat1090-localhost/temperature-"*.rrd; do
+        for rrd in "$DB_BASE/stat1090-localhost/stat1090_temperature-"*.rrd; do
             [[ -f "$rrd" ]] && { TEMP_RRD="$rrd"; break; }
         done
         if [[ -z "$TEMP_RRD" && -f "$DB_BASE/table-localhost/gauge-cpu_temp.rrd" ]]; then

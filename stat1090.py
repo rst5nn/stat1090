@@ -58,7 +58,7 @@ def handle_config(root):
                                        name='stat1090_temp.' + instance_name,
                                        interval=60)
             else:
-                collectd.warning('No dump1090 URL defined in /etc/collectd/collectd.conf for ' + instance_name)
+                collectd.warning('No stat1090 URL defined in /etc/collectd/collectd.conf for ' + instance_name)
 
             if url_978:
                 collectd.register_read(callback=read_978,
@@ -74,7 +74,7 @@ def handle_config(root):
             collectd.warning('Ignored config entry: ' + child.key)
             return
 
-V=collectd.Values(host='', plugin='dump1090', time=0)
+V=collectd.Values(host='', plugin='stat1090', time=0)
 
 def dispatch_df(data, stats, name):
     if not has_key(stats, name):
@@ -170,7 +170,7 @@ def read_airspy(data):
 
             V.dispatch(plugin_instance = instance_name,
                        host=host,
-                       type='dump1090_cpu',
+                       type='stat1090_cpu',
                        type_instance='airspy',
                        time=time.time(),
                        values = [ptime])
@@ -206,15 +206,15 @@ def handle_signal_stuff(data, stats, aircraft_data):
     try:
         if has_key(stats['last1min'],'adaptive'):
             stuff = stats['last1min']['adaptive']
-            dispatch_misc(stats['last1min']['end'], data, stuff, 'gain_db', 'dump1090_misc')
+            dispatch_misc(stats['last1min']['end'], data, stuff, 'gain_db', 'stat1090_misc')
         elif has_key(stats['last1min'],'gain_db'):
             stuff = stats['last1min']
-            dispatch_misc(stats['last1min']['end'], data, stuff, 'gain_db', 'dump1090_misc')
+            dispatch_misc(stats['last1min']['end'], data, stuff, 'gain_db', 'stat1090_misc')
         elif has_key(stats, 'gain_db') and has_key(stats, 'now'):
-            dispatch_misc(stats['now'], data, stats, 'gain_db', 'dump1090_misc')
+            dispatch_misc(stats['now'], data, stats, 'gain_db', 'stat1090_misc')
         elif has_key(stats['last1min'],'local') and has_key(stats['last1min']['local'],'gain_db'):
             stuff = stats['last1min']['local']
-            dispatch_misc(stats['last1min']['end'], data, stuff, 'gain_db', 'dump1090_misc')
+            dispatch_misc(stats['last1min']['end'], data, stuff, 'gain_db', 'stat1090_misc')
     except:
         collectd.warning(str(error))
         pass
@@ -224,7 +224,7 @@ def handle_signal_stuff(data, stats, aircraft_data):
         if has_key(stats['last1min']['local'],'signal'):
           V.dispatch(plugin_instance = instance_name,
                    host=host,
-                   type='dump1090_dbfs',
+                   type='stat1090_dbfs',
                    type_instance='signal',
                    time=stats['last1min']['end'],
                    values = [stats['last1min']['local']['signal']],
@@ -233,7 +233,7 @@ def handle_signal_stuff(data, stats, aircraft_data):
         if False and has_key(stats['last1min']['local'],'peak_signal'):
           V.dispatch(plugin_instance = instance_name,
                    host=host,
-                   type='dump1090_dbfs',
+                   type='stat1090_dbfs',
                    type_instance='peak_signal',
                    time=stats['last1min']['end'],
                    values = [stats['last1min']['local']['peak_signal']],
@@ -242,7 +242,7 @@ def handle_signal_stuff(data, stats, aircraft_data):
         if False and has_key(stats['last1min']['local'],'min_signal'):
           V.dispatch(plugin_instance = instance_name,
                    host=host,
-                   type='dump1090_dbfs',
+                   type='stat1090_dbfs',
                    type_instance='min_signal',
                    time=stats['last1min']['end'],
                    values = [stats['last1min']['local']['min_signal']],
@@ -251,7 +251,7 @@ def handle_signal_stuff(data, stats, aircraft_data):
         if has_key(stats['last1min']['local'],'noise'):
           V.dispatch(plugin_instance = instance_name,
                    host=host,
-                   type='dump1090_dbfs',
+                   type='stat1090_dbfs',
                    type_instance='noise',
                    time=stats['last1min']['end'],
                    values = [stats['last1min']['local']['noise']],
@@ -283,7 +283,7 @@ def handle_signal_stuff(data, stats, aircraft_data):
 
         V.dispatch(plugin_instance = instance_name,
                host=host,
-               type='dump1090_dbfs',
+               type='stat1090_dbfs',
                type_instance='quart1',
                time=aircraft_data['now'],
                values = [quart1],
@@ -291,7 +291,7 @@ def handle_signal_stuff(data, stats, aircraft_data):
 
         V.dispatch(plugin_instance = instance_name,
                host=host,
-               type='dump1090_dbfs',
+               type='stat1090_dbfs',
                type_instance='median',
                time=aircraft_data['now'],
                values = [median],
@@ -299,7 +299,7 @@ def handle_signal_stuff(data, stats, aircraft_data):
 
         V.dispatch(plugin_instance = instance_name,
                host=host,
-               type='dump1090_dbfs',
+               type='stat1090_dbfs',
                type_instance='quart3',
                time=aircraft_data['now'],
                values = [quart3],
@@ -307,7 +307,7 @@ def handle_signal_stuff(data, stats, aircraft_data):
 
         V.dispatch(plugin_instance = instance_name,
                host=host,
-               type='dump1090_dbfs',
+               type='stat1090_dbfs',
                type_instance='peak_signal',
                time=aircraft_data['now'],
                values = [maximum],
@@ -315,7 +315,7 @@ def handle_signal_stuff(data, stats, aircraft_data):
 
         V.dispatch(plugin_instance = instance_name,
                host=host,
-               type='dump1090_dbfs',
+               type='stat1090_dbfs',
                type_instance='min_signal',
                time=aircraft_data['now'],
                values = [minimum],
@@ -326,7 +326,7 @@ def handle_signal_stuff(data, stats, aircraft_data):
         if has_key(stats['total']['local'],'strong_signals'):
             V.dispatch(plugin_instance = instance_name,
                        host=host,
-                       type='dump1090_messages',
+                       type='stat1090_messages',
                        type_instance='strong_signals',
                        time=stats['total']['end'],
                        values = [stats['total']['local']['strong_signals']],
@@ -341,7 +341,7 @@ def read_1090(data):
     #NaN rrd
     V.dispatch(plugin_instance = instance_name,
                host=host,
-               type='dump1090_dbfs',
+               type='stat1090_dbfs',
                type_instance='NaN',
                time=time.time(),
                values = [1])
@@ -395,7 +395,7 @@ def read_1090(data):
 
         V.dispatch(plugin_instance = instance_name,
                    host=host,
-                   type='dump1090_messages',
+                   type='stat1090_messages',
                    type_instance='local_accepted',
                    time=stats['total']['end'],
                    values = [sum(counts)])
@@ -403,7 +403,7 @@ def read_1090(data):
         for i in range(len(counts)):
             V.dispatch(plugin_instance = instance_name,
                        host=host,
-                       type='dump1090_messages',
+                       type='stat1090_messages',
                        type_instance='local_accepted_%d' % i,
                        time=stats['total']['end'],
                        values = [counts[i]])
@@ -416,14 +416,14 @@ def read_1090(data):
             remote_total += stats['total']['remote']['basestation']
         V.dispatch(plugin_instance = instance_name,
                    host=host,
-                   type='dump1090_messages',
+                   type='stat1090_messages',
                    type_instance='remote_accepted',
                    time=stats['total']['end'],
                    values = [remote_total])
         for i in range(len(counts)):
             V.dispatch(plugin_instance = instance_name,
                        host=host,
-                       type='dump1090_messages',
+                       type='stat1090_messages',
                        type_instance='remote_accepted_%d' % i,
                        time=stats['total']['end'],
                        values = [counts[i]])
@@ -435,7 +435,7 @@ def read_1090(data):
 
     V.dispatch(plugin_instance = instance_name,
                host=host,
-               type='dump1090_messages',
+               type='stat1090_messages',
                type_instance='positions',
                time=stats['total']['end'],
                values = [posCount])
@@ -443,13 +443,13 @@ def read_1090(data):
     # Tracks
     V.dispatch(plugin_instance = instance_name,
                host=host,
-               type='dump1090_tracks',
+               type='stat1090_tracks',
                type_instance='all',
                time=stats['total']['end'],
                values = [stats['total']['tracks']['all']])
     V.dispatch(plugin_instance = instance_name,
                host=host,
-               type='dump1090_tracks',
+               type='stat1090_tracks',
                type_instance='single_message',
                time=stats['total']['end'],
                values = [stats['total']['tracks']['single_message']])
@@ -458,7 +458,7 @@ def read_1090(data):
     for k in stats['total']['cpu'].keys():
         V.dispatch(plugin_instance = instance_name,
                    host=host,
-                   type='dump1090_cpu',
+                   type='stat1090_cpu',
                    type_instance=k,
                    time=stats['total']['end'],
                    values = [stats['total']['cpu'][k]])
@@ -505,28 +505,28 @@ def read_1090(data):
 
         V.dispatch(plugin_instance = instance_name,
                    host=host,
-                   type='dump1090_range',
+                   type='stat1090_range',
                    type_instance='quart1',
                    time=aircraft_data['now'],
                    values = [quart1])
 
         V.dispatch(plugin_instance = instance_name,
                    host=host,
-                   type='dump1090_range',
+                   type='stat1090_range',
                    type_instance='median',
                    time=aircraft_data['now'],
                    values = [median])
 
         V.dispatch(plugin_instance = instance_name,
                    host=host,
-                   type='dump1090_range',
+                   type='stat1090_range',
                    type_instance='quart3',
                    time=aircraft_data['now'],
                    values = [quart3])
 
         V.dispatch(plugin_instance = instance_name,
                    host=host,
-                   type='dump1090_range',
+                   type='stat1090_range',
                    type_instance='minimum',
                    time=aircraft_data['now'],
                    values = [minimum])
@@ -536,7 +536,7 @@ def read_1090(data):
     # max range is always dispatched, even if zero
     V.dispatch(plugin_instance = instance_name,
                host=host,
-               type='dump1090_range',
+               type='stat1090_range',
                type_instance='max_range',
                time=aircraft_data['now'],
                values = [max_range])
@@ -545,28 +545,28 @@ def read_1090(data):
 
     V.dispatch(plugin_instance = instance_name,
                host=host,
-               type='dump1090_aircraft',
+               type='stat1090_aircraft',
                type_instance='recent',
                time=aircraft_data['now'],
                values = [total, with_pos])
 
     V.dispatch(plugin_instance = instance_name,
                host=host,
-               type='dump1090_mlat',
+               type='stat1090_mlat',
                type_instance='recent',
                time=aircraft_data['now'],
                values = [mlat])
 
     V.dispatch(plugin_instance = instance_name,
                host=host,
-               type='dump1090_tisb',
+               type='stat1090_tisb',
                type_instance='recent',
                time=aircraft_data['now'],
                values = [tisb])
 
     V.dispatch(plugin_instance = instance_name,
                host=host,
-               type='dump1090_gps',
+               type='stat1090_gps',
                type_instance='recent',
                time=aircraft_data['now'],
                values = [gps])
@@ -622,28 +622,28 @@ def read_978(data):
     # Aircraft numbers
     V.dispatch(plugin_instance = instance_name,
                host=host,
-               type='dump1090_aircraft',
+               type='stat1090_aircraft',
                type_instance='recent_978',
                time=aircraft_data['now'],
                values = [total, with_pos])
 
     V.dispatch(plugin_instance = instance_name,
                host=host,
-               type='dump1090_tisb',
+               type='stat1090_tisb',
                type_instance='recent_978',
                time=aircraft_data['now'],
                values = [tisb])
 
     V.dispatch(plugin_instance = instance_name,
                host=host,
-               type='dump1090_gps',
+               type='stat1090_gps',
                type_instance='recent_978',
                time=aircraft_data['now'],
                values = [gps])
 
     V.dispatch(plugin_instance = instance_name,
                host=host,
-               type='dump1090_messages',
+               type='stat1090_messages',
                type_instance='messages_978',
                time=aircraft_data['now'],
                values = [aircraft_data['messages']])
@@ -660,35 +660,35 @@ def read_978(data):
 
         V.dispatch(plugin_instance = instance_name,
                    host=host,
-                   type='dump1090_range',
+                   type='stat1090_range',
                    type_instance='quart1_978',
                    time=aircraft_data['now'],
                    values = [quart1])
 
         V.dispatch(plugin_instance = instance_name,
                    host=host,
-                   type='dump1090_range',
+                   type='stat1090_range',
                    type_instance='median_978',
                    time=aircraft_data['now'],
                    values = [median])
 
         V.dispatch(plugin_instance = instance_name,
                    host=host,
-                   type='dump1090_range',
+                   type='stat1090_range',
                    type_instance='quart3_978',
                    time=aircraft_data['now'],
                    values = [quart3])
 
         V.dispatch(plugin_instance = instance_name,
                    host=host,
-                   type='dump1090_range',
+                   type='stat1090_range',
                    type_instance='minimum_978',
                    time=aircraft_data['now'],
                    values = [minimum])
 
     V.dispatch(plugin_instance = instance_name,
                host=host,
-               type='dump1090_range',
+               type='stat1090_range',
                type_instance='max_range_978',
                time=aircraft_data['now'],
                values = [max_range])
@@ -717,7 +717,7 @@ def read_978(data):
 
         V.dispatch(plugin_instance = instance_name,
                host=host,
-               type='dump1090_dbfs',
+               type='stat1090_dbfs',
                type_instance='quart1_978',
                time=aircraft_data['now'],
                values = [quart1],
@@ -725,7 +725,7 @@ def read_978(data):
 
         V.dispatch(plugin_instance = instance_name,
                host=host,
-               type='dump1090_dbfs',
+               type='stat1090_dbfs',
                type_instance='median_978',
                time=aircraft_data['now'],
                values = [median],
@@ -733,7 +733,7 @@ def read_978(data):
 
         V.dispatch(plugin_instance = instance_name,
                host=host,
-               type='dump1090_dbfs',
+               type='stat1090_dbfs',
                type_instance='quart3_978',
                time=aircraft_data['now'],
                values = [quart3],
@@ -741,7 +741,7 @@ def read_978(data):
 
         V.dispatch(plugin_instance = instance_name,
                host=host,
-               type='dump1090_dbfs',
+               type='stat1090_dbfs',
                type_instance='peak_signal_978',
                time=aircraft_data['now'],
                values = [maximum],
@@ -749,7 +749,7 @@ def read_978(data):
 
         V.dispatch(plugin_instance = instance_name,
                host=host,
-               type='dump1090_dbfs',
+               type='stat1090_dbfs',
                type_instance='min_signal_978',
                time=aircraft_data['now'],
                values = [minimum],
@@ -905,7 +905,7 @@ def read_traffic(data=None):
                         f.write(f"{now}: DEPARTURE {hex_code} {flight} alt={alt} spd={speed} rate={rate} cat={cat}\n")
                 except: pass
 
-    val = collectd.Values(host='', plugin='dump1090', plugin_instance='localhost', type='dump1090_ops', time=0)
+    val = collectd.Values(host='', plugin='stat1090', plugin_instance='localhost', type='stat1090_ops', time=0)
     val.dispatch(type_instance='landings', values=[landings])
     val.dispatch(type_instance='departures', values=[departures])
 
@@ -933,7 +933,7 @@ def read_temperature(data=None):
 
         val = collectd.Values(
             host='', plugin='stat1090', plugin_instance='localhost',
-            type='temperature', type_instance=zone_type, time=0
+            type='stat1090_temperature', type_instance=zone_type, time=0
         )
         val.dispatch(values=[temp_milli / 1000.0])
 
