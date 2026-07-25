@@ -508,8 +508,9 @@ case "$TYPE" in
             "${COLORS[@]}" \
             --title "Memory Utilization" \
             --vertical-label "Bytes" \
-            --right-axis 1:0 \
+            --right-axis 0.0000000009313225746154785:0 \
             --right-axis-label "Bytes" \
+            --right-axis-format "%1.1lf G" \
             -b 1024 \
             -M \
             --lower-limit 0 \
