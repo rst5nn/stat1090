@@ -968,10 +968,9 @@ def read_memory(data=None):
     except (KeyError, ValueError):
         return
 
-    now = time.time()
     val = collectd.Values(
         host='', plugin='stat1090', plugin_instance='localhost',
-        type='stat1090_memory', time=now
+        type='stat1090_memory', time=0
     )
     val.dispatch(type_instance='used', values=[used])
     val.dispatch(type_instance='buffers', values=[buffers])
