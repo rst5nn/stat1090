@@ -107,3 +107,17 @@ Returns: `image/png`, `Cache-Control: no-cache`
 ### `GET /api/status`
 
 Returns JSON with server status, available graph types, active DB path, and rrdtool presence.
+
+---
+
+## Development Guidelines for Adding or Modifying Metrics
+
+> [!CRITICAL]
+> **Mandatory Inspection of `stat1090.db`**
+> 
+> Whenever adding a new metric or modifying existing metric types in `stat1090.py`:
+> 1. **Update `stat1090.db`**: Every collectd dataset `type` dispatched via `collectd.Values(type='stat1090_...')` **MUST** be explicitly defined in `stat1090.db` (e.g., `stat1090_memory value:GAUGE:0:U`).
+> 2. **Avoid `Dataset not found` Crashes**: If a dataset is missing from `stat1090.db`, collectd will throw `TypeError: Dataset stat1090_<name> not found` and suspend Python read callbacks for 120 seconds.
+> 3. **Deployment Sync**: Whenever modifying `stat1090.db`, always deploy it to `/usr/share/stat1090/stat1090.db` and restart collectd (`sudo systemctl restart collectd`).
+> 4. **Naming Convention**: All new metrics must follow the pattern `type='stat1090_<metric_name>'` under `plugin='stat1090'`, ensuring all `.rrd` files land in `/run/collectd/localhost/stat1090-localhost/stat1090_*`.
+
