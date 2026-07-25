@@ -71,7 +71,8 @@ All graphs follow a high-contrast dark/bright design system with mirrored Y-axes
 | `signal` | `stat1090_dbfs-signal.rrd`, `stat1090_dbfs-min_signal.rrd`, `stat1090_dbfs-median.rrd`, `stat1090_dbfs-peak_signal.rrd`, `stat1090_dbfs-noise.rrd` | Peak signal (`#f43f5e`), median signal (`#38bdf8`), min signal (`#fbbf24`), noise floor line (`#34d399`), noise area fill, `-3 dBFS` reference line. |
 | `aircraft` | `stat1090_aircraft-recent.rrd`, `stat1090_gps-recent.rrd` | Total tracked area fill (`#1c3d2e`/`#E6F4EA`) with crisp mint green boundary (`#34d399`), ADS-B position count (`#38bdf8`). |
 | `traffic` | `stat1090_ops-landings.rrd`, `stat1090_ops-departures.rrd` | Cumulative hourly flight counter (sawtooth area chart resetting on the hour). Landings (`#34d399`), Departures (`#38bdf8`), Max/Hour peak stats. |
-| `temperature` | `stat1090-localhost/temperature-*.rrd` (or `table-localhost/gauge-cpu_temp.rrd`) | System CPU/GPU thermal zone temperatures in °C. Symmetrical left and right Y-axes (`°C`), Avg/Max/Min GPRINT stats. |
+| `temperature` | `stat1090-localhost/stat1090_temperature-*.rrd` | System CPU/GPU thermal zone temperatures in °C. Symmetrical left and right Y-axes (`°C`), Avg/Max/Min GPRINT stats. |
+| `memory` | `stat1090_memory-used.rrd`, `stat1090_memory-buffers.rrd`, `stat1090_memory-cached.rrd`, `stat1090_memory-free.rrd` | Memory utilization stacked area chart (`Used`, `Buffers`, `Cache`, `Free`) in Bytes. htop-style calculation. |
 
 ---
 

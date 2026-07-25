@@ -28,6 +28,7 @@ It delivers real-time receiver analytics, GNSS-resilient airport traffic monitor
    - **ADS-B Aircraft Tracked**: Total aircraft tracked with crisp mint green boundary line plot and ADS-B position breakdown.
    - **Landings & Departures (Hourly)**: Cumulative sawtooth flight counter resetting at the top of every hour. GNSS-resilient algorithm using altitude, ground speed, and vertical rate thresholds.
    - **System Temperature**: System CPU/GPU thermal zone temperatures in °C with symmetrical left and right Y-axes.
+   - **Memory Utilization**: Stacked memory usage chart (`Used`, `Buffers`, `Cache`, `Free`) calculated via `htop` methodology.
 
 3. **Standalone Architecture & Glassmorphism Design**:
    - Flat application design with a single Python collector (`stat1090.py`) and custom TypesDB (`stat1090.db`).
