@@ -35,7 +35,7 @@
                     <span id="last-updated" class="timestamp-badge">Updated: --:--:--</span>
                 </div>
 
-                <button id="theme-toggle-btn" class="btn btn-icon btn-sm" onclick="toggleTheme()" title="Switch theme">
+                <button id="theme-toggle-btn" class="btn btn-secondary btn-icon btn-sm" onclick="toggleTheme()" title="Switch theme">
                     <svg id="theme-icon-sun" class="theme-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                         <circle cx="12" cy="12" r="5"></circle>
                         <line x1="12" y1="1" x2="12" y2="3"></line>
@@ -149,13 +149,14 @@
                         <button type="button" class="btn btn-segmented-item btn-refresh" data-interval="60" onclick="setRefreshInterval(60)">1m</button>
                         <button type="button" class="btn btn-segmented-item btn-refresh" data-interval="300" onclick="setRefreshInterval(300)">5m</button>
                     </div>
-                    <button type="button" class="btn btn-icon btn-sm" onclick="refreshGraphs()" title="Refresh Graphs Now">
+                    <button type="button" class="btn btn-secondary btn-icon btn-sm" onclick="refreshGraphs()" title="Refresh Graphs Now">
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M23 4v6h-6"></path>
                             <path d="M1 20v-6h6"></path>
                             <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
                         </svg>
                     </button>
+                </div>
                 </div>
             </form>
         </section>
