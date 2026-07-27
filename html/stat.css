@@ -207,19 +207,6 @@ body {
     aspect-ratio: 1;
 }
 
-.btn-theme-toggle {
-    border-radius: 50%;
-    width: 34px;
-    height: 34px;
-    padding: 0;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    background: var(--bg-control);
-    border: 1px solid var(--border-color);
-    flex-shrink: 0;
-}
-
 /* Segmented Control Pill Groups */
 .btn-segmented {
     display: inline-flex;
