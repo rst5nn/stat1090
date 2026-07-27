@@ -218,7 +218,7 @@ def handle_signal_stuff(data, stats, aircraft_data):
         elif has_key(stats['last1min'],'local') and has_key(stats['last1min']['local'],'gain_db'):
             stuff = stats['last1min']['local']
             dispatch_misc(stats['last1min']['end'], data, stuff, 'gain_db', 'stat1090_misc')
-    except:
+    except Exception as error:
         collectd.warning(str(error))
         pass
 
@@ -458,13 +458,14 @@ def read_1090(data):
                values = [stats['total']['tracks']['single_message']])
 
     # CPU
-    for k in stats['total']['cpu'].keys():
-        V.dispatch(plugin_instance = instance_name,
-                   host=host,
-                   type='stat1090_cpu',
-                   type_instance=k,
-                   time=stats['total']['end'],
-                   values = [stats['total']['cpu'][k]])
+    if has_key(stats['total'], 'cpu'):
+        for k in stats['total']['cpu'].keys():
+            V.dispatch(plugin_instance = instance_name,
+                       host=host,
+                       type='stat1090_cpu',
+                       type_instance=k,
+                       time=stats['total']['end'],
+                       values = [stats['total']['cpu'][k]])
 
 
     total = 0
@@ -763,7 +764,8 @@ def greatcircle(lat0, lon0, lat1, lon1):
     lon0 = lon0 * math.pi / 180.0;
     lat1 = lat1 * math.pi / 180.0;
     lon1 = lon1 * math.pi / 180.0;
-    return 6371e3 * math.acos(math.sin(lat0) * math.sin(lat1) + math.cos(lat0) * math.cos(lat1) * math.cos(abs(lon0 - lon1)))
+    val = math.sin(lat0) * math.sin(lat1) + math.cos(lat0) * math.cos(lat1) * math.cos(abs(lon0 - lon1))
+    return 6371e3 * math.acos(max(-1.0, min(1.0, val)))
 
 def T(provisional):
     now = time.time()
@@ -863,6 +865,18 @@ def read_traffic(data=None):
         if now - ACTIVE_DEPARTURES[h] > 900:
             del ACTIVE_DEPARTURES[h]
 
+    def _log_traffic(msg):
+        log_file = '/tmp/stat1090_traffic.log'
+        try:
+            if os.path.exists(log_file) and os.path.getsize(log_file) > 2 * 1024 * 1024:
+                if os.path.exists(log_file + '.1'):
+                    os.remove(log_file + '.1')
+                os.rename(log_file, log_file + '.1')
+            with open(log_file, 'a') as f:
+                f.write(msg + '\n')
+        except Exception:
+            pass
+
     for ac in aircraft_list:
         hex_code = ac.get("hex")
         if not hex_code:
@@ -895,18 +909,12 @@ def read_traffic(data=None):
             if hex_code not in ACTIVE_LANDINGS:
                 ACTIVE_LANDINGS[hex_code] = now
                 landings += 1
-                try:
-                    with open('/tmp/stat1090_traffic.log', 'a') as f:
-                        f.write(f"{now}: LANDING {hex_code} {flight} alt={alt} spd={speed} rate={rate} cat={cat}\n")
-                except: pass
+                _log_traffic(f"{now}: LANDING {hex_code} {flight} alt={alt} spd={speed} rate={rate} cat={cat}")
         elif rate > min_rt: # Initial climb departing
             if hex_code not in ACTIVE_DEPARTURES:
                 ACTIVE_DEPARTURES[hex_code] = now
                 departures += 1
-                try:
-                    with open('/tmp/stat1090_traffic.log', 'a') as f:
-                        f.write(f"{now}: DEPARTURE {hex_code} {flight} alt={alt} spd={speed} rate={rate} cat={cat}\n")
-                except: pass
+                _log_traffic(f"{now}: DEPARTURE {hex_code} {flight} alt={alt} spd={speed} rate={rate} cat={cat}")
 
     val = collectd.Values(host='', plugin='stat1090', plugin_instance='localhost', type='stat1090_ops', time=0)
     val.dispatch(type_instance='landings', values=[landings])
@@ -963,7 +971,7 @@ def read_memory(data=None):
         total = 1024 * int(memdata['MemTotal'])
         free = 1024 * int(memdata['MemFree'])
         buffers = 1024 * int(memdata['Buffers'])
-        cached = 1024 * (int(memdata['Cached']) + int(memdata['SReclaimable']) - int(memdata['Shmem']))
+        cached = 1024 * (int(memdata['Cached']) + int(memdata.get('SReclaimable', 0)) - int(memdata.get('Shmem', 0)))
         used = total - free - buffers - cached
     except (KeyError, ValueError):
         return

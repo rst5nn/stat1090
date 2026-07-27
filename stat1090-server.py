@@ -91,6 +91,10 @@ class Stat1090RequestHandler(SimpleHTTPRequestHandler):
             graph_type = "tracks"
         elif graph_type in ("landings", "arrivals", "departures"):
             graph_type = "traffic"
+        elif graph_type == "temp":
+            graph_type = "temperature"
+        elif graph_type == "mem":
+            graph_type = "memory"
 
         if graph_type not in ALLOWED_GRAPHS:
             self.send_error(400, f"Invalid graph type. Allowed: {', '.join(ALLOWED_GRAPHS)}")
@@ -168,7 +172,7 @@ class Stat1090RequestHandler(SimpleHTTPRequestHandler):
             "status": "online",
             "time": datetime.now().isoformat(),
             "epoch": int(time.time()),
-            "graphs": ["range", "signal", "aircraft", "messages", "tracks"],
+            "graphs": ["range", "signal", "aircraft", "messages", "tracks", "traffic", "temperature", "memory"],
             "db_path": db_dir,
             "rrdtool_installed": os.path.exists("/usr/bin/rrdtool") or os.path.exists("/usr/local/bin/rrdtool")
         }

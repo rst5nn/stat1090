@@ -36,6 +36,7 @@ MGRID="444c56"
 # Dark Theme Color Palette (Antigravity Design Expert)
 NOISE_FILL="1c3d2e"
 NOISE_LINE="34d399"
+EMERALD="10b981"
 PEAK_SIGNAL="f43f5e"
 MEDIAN_SIGNAL="38bdf8"
 MIN_SIGNAL="fbbf24"
@@ -80,6 +81,7 @@ if [[ "$colorscheme" == "light" ]]; then
     # Light Theme Color Palette
     NOISE_FILL="E6F4EA"
     NOISE_LINE="10B981"
+    EMERALD="0d9488"
     PEAK_SIGNAL="E11D48"
     MEDIAN_SIGNAL="0284C7"
     MIN_SIGNAL="D97706"

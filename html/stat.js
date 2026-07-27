@@ -421,7 +421,10 @@ function openModal(graphType) {
         'signal': 'Signal Level (dBFS)',
         'aircraft': 'Aircraft Tracked',
         'messages': 'Message Rate (Messages/Second)',
-        'tracks': 'Tracks Seen (Tracks/Hour)'
+        'tracks': 'Tracks Seen (Tracks/Hour)',
+        'traffic': 'Landings & Departures (Hourly)',
+        'temperature': 'System Temperature',
+        'memory': 'Memory Utilization'
     };
 
     document.getElementById('modal-title').textContent = titles[graphType] || 'Graph Details';

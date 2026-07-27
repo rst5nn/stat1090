@@ -4,9 +4,16 @@
 
 set -e
 
+if ! command -v rclone &> /dev/null; then
+    echo "[ERROR] rclone is not installed. Please install rclone to use this backup script."
+    exit 1
+fi
+
 DATE=$(date +%Y-%m-%d_%H%M)
 ARCHIVE="/tmp/collectd_${DATE}.tar.gz"
 REMOTE="gdrive:ADSB"
+
+trap 'rm -f "$ARCHIVE"' EXIT
 
 # Locate rclone config file
 RCLONE_CONF_OPT=""
@@ -31,11 +38,7 @@ fi
 echo "[+] Uploading $ARCHIVE to $REMOTE..."
 rclone $RCLONE_CONF_OPT copy "$ARCHIVE" "$REMOTE" --quiet
 
-# 4. Remove local temporary archive
-echo "[+] Removing local temporary file $ARCHIVE..."
-rm -f "$ARCHIVE"
-
-# 5. Rotate Google Drive backups (keep only the 7 newest backups)
+# 4. Rotate Google Drive backups (keep only the 7 newest backups)
 echo "[+] Rotating Google Drive backups (keeping 7 newest)..."
 OLD_BACKUPS=$(rclone $RCLONE_CONF_OPT lsf "$REMOTE" --files-only --include "collectd_*.tar.gz" 2>/dev/null | sort -r | tail -n +8)
 
