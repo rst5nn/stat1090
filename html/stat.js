@@ -8,6 +8,7 @@ let currentMode = 'preset'; // 'preset' or 'custom'
 let activePreset = '2h';
 let customFrom = null;
 let customTill = null;
+let heartbeatTimer = null;
 let refreshTimer = null;
 let refreshIntervalSeconds = parseInt(localStorage.getItem('stat1090_refresh') || '0', 10);
 let activeTheme = localStorage.getItem('stat1090_theme') || 'dark';
@@ -35,6 +36,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initRefreshButtons();
     refreshGraphs();
     startAutoRefresh();
+    startHeartbeat();
     initDropdownListeners();
 });
 
@@ -278,6 +280,7 @@ function refreshGraphs() {
         };
         tempImg.onerror = () => {
             if (loader) loader.classList.remove('active');
+            checkHeartbeat();
         };
         tempImg.src = srcUrl;
     });
@@ -526,4 +529,56 @@ function initDropdownListeners() {
             if (dropdown) dropdown.classList.remove('active');
         }
     });
+}
+
+/**
+ * Real-time Heartbeat & Status Checking
+ */
+function getApiStatusUrl() {
+    let basePath = window.location.pathname;
+    basePath = basePath.replace(/\/index\.html$/, '');
+    if (!basePath.endsWith('/')) {
+        basePath += '/';
+    }
+    return `${basePath}api/status?_t=${Math.floor(Date.now() / 1000)}`;
+}
+
+async function checkHeartbeat() {
+    const statusText = document.getElementById('status-text');
+    const pulseDot = document.querySelector('.pulse-dot');
+    const statusContainer = document.querySelector('.status-indicator');
+
+    try {
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 5000);
+
+        const response = await fetch(getApiStatusUrl(), {
+            method: 'GET',
+            cache: 'no-store',
+            signal: controller.signal
+        });
+        clearTimeout(timeoutId);
+
+        if (response.ok) {
+            const data = await response.json();
+            if (data && data.status === 'online') {
+                if (statusText) statusText.textContent = 'Connected';
+                if (pulseDot) pulseDot.classList.remove('disconnected', 'offline');
+                if (statusContainer) statusContainer.classList.remove('offline');
+                return true;
+            }
+        }
+        throw new Error('Server non-online status');
+    } catch (err) {
+        if (statusText) statusText.textContent = 'Disconnected';
+        if (pulseDot) pulseDot.classList.add('disconnected');
+        if (statusContainer) statusContainer.classList.add('offline');
+        return false;
+    }
+}
+
+function startHeartbeat() {
+    if (heartbeatTimer) clearInterval(heartbeatTimer);
+    checkHeartbeat();
+    heartbeatTimer = setInterval(checkHeartbeat, 15000);
 }

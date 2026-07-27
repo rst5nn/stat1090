@@ -269,12 +269,31 @@ body {
     border-radius: 50%;
     box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.6);
     animation: pulse 2s infinite;
+    transition: background-color 0.3s ease;
+}
+
+.pulse-dot.disconnected,
+.pulse-dot.offline {
+    background-color: var(--accent-rose);
+    box-shadow: 0 0 0 0 rgba(244, 63, 94, 0.6);
+    animation: pulse-red 2s infinite;
 }
 
 @keyframes pulse {
     0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.6); }
     70% { box-shadow: 0 0 0 6px rgba(16, 185, 129, 0); }
     100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+}
+
+@keyframes pulse-red {
+    0% { box-shadow: 0 0 0 0 rgba(244, 63, 94, 0.6); }
+    70% { box-shadow: 0 0 0 6px rgba(244, 63, 94, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(244, 63, 94, 0); }
+}
+
+.status-indicator.offline #status-text {
+    color: var(--accent-rose);
+    font-weight: 600;
 }
 
 .timestamp-badge {
