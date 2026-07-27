@@ -13,6 +13,13 @@ let refreshIntervalSeconds = parseInt(localStorage.getItem('stat1090_refresh') |
 let activeTheme = localStorage.getItem('stat1090_theme') || 'dark';
 
 const GRAPH_TYPES = ['signal', 'range', 'aircraft', 'traffic', 'temperature', 'memory'];
+let graphVisibility = JSON.parse(localStorage.getItem('stat1090_graph_visibility') || '{}');
+
+GRAPH_TYPES.forEach(type => {
+    if (graphVisibility[type] === undefined) {
+        graphVisibility[type] = true;
+    }
+});
 
 const PRESET_LABELS = {
     '2h': 'Last 2 Hours',
@@ -22,11 +29,13 @@ const PRESET_LABELS = {
 
 document.addEventListener('DOMContentLoaded', () => {
     initTheme();
+    initGraphVisibility();
     initDateTimeInputs();
     parseUrlParameters();
     initRefreshButtons();
     refreshGraphs();
     startAutoRefresh();
+    initDropdownListeners();
 });
 
 /**
@@ -251,8 +260,10 @@ function refreshGraphs() {
         rangeDisplay.textContent = displayRangeText;
     }
 
-    // Fetch and reload each of the 5 graphs
+    // Fetch and reload active visible graphs
     GRAPH_TYPES.forEach(type => {
+        if (graphVisibility[type] === false) return;
+
         const loader = document.getElementById(`loader-${type}`);
         const img = document.getElementById(`img-${type}`);
 
@@ -434,4 +445,85 @@ function openModal(graphType) {
 
 function closeModal(event) {
     document.getElementById('graph-modal').classList.remove('active');
+}
+
+/**
+ * Initialize graph visibility state and UI toggles
+ */
+function initGraphVisibility() {
+    GRAPH_TYPES.forEach(type => {
+        const isVisible = graphVisibility[type] !== false;
+        const checkbox = document.getElementById(`toggle-graph-${type}`);
+        const card = document.getElementById(`card-${type}`);
+        
+        if (checkbox) checkbox.checked = isVisible;
+        if (card) {
+            if (isVisible) {
+                card.classList.remove('hidden');
+            } else {
+                card.classList.add('hidden');
+            }
+        }
+    });
+}
+
+function toggleGraphVisibility(type, isVisible) {
+    graphVisibility[type] = isVisible;
+    localStorage.setItem('stat1090_graph_visibility', JSON.stringify(graphVisibility));
+    
+    const card = document.getElementById(`card-${type}`);
+    if (card) {
+        if (isVisible) {
+            card.classList.remove('hidden');
+            const img = document.getElementById(`img-${type}`);
+            if (img && (!img.src || img.src === window.location.href)) {
+                refreshGraphs();
+            }
+        } else {
+            card.classList.add('hidden');
+        }
+    }
+}
+
+function toggleAllGraphs(showAll) {
+    GRAPH_TYPES.forEach(type => {
+        graphVisibility[type] = showAll;
+        const checkbox = document.getElementById(`toggle-graph-${type}`);
+        if (checkbox) checkbox.checked = showAll;
+        const card = document.getElementById(`card-${type}`);
+        if (card) {
+            if (showAll) card.classList.remove('hidden');
+            else card.classList.add('hidden');
+        }
+    });
+    localStorage.setItem('stat1090_graph_visibility', JSON.stringify(graphVisibility));
+    if (showAll) {
+        refreshGraphs();
+    }
+}
+
+function toggleGraphSettingsMenu(event) {
+    if (event) event.stopPropagation();
+    const dropdown = document.getElementById('graph-settings-dropdown');
+    if (dropdown) {
+        dropdown.classList.toggle('active');
+    }
+}
+
+function initDropdownListeners() {
+    document.addEventListener('click', (e) => {
+        const dropdown = document.getElementById('graph-settings-dropdown');
+        const btn = document.getElementById('graph-settings-btn');
+        if (dropdown && dropdown.classList.contains('active')) {
+            if (!dropdown.contains(e.target) && !btn.contains(e.target)) {
+                dropdown.classList.remove('active');
+            }
+        }
+    });
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+            const dropdown = document.getElementById('graph-settings-dropdown');
+            if (dropdown) dropdown.classList.remove('active');
+        }
+    });
 }

@@ -46,6 +46,62 @@
                     </svg>
                 </button>
 
+                <!-- Graph Visibility Settings Dropdown -->
+                <div class="dropdown-wrapper">
+                    <button id="graph-settings-btn" class="btn btn-secondary btn-sm" onclick="toggleGraphSettingsMenu(event)" title="Toggle graph blocks">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="4" y1="21" x2="4" y2="14"></line>
+                            <line x1="4" y1="10" x2="4" y2="3"></line>
+                            <line x1="12" y1="21" x2="12" y2="12"></line>
+                            <line x1="12" y1="8" x2="12" y2="3"></line>
+                            <line x1="20" y1="21" x2="20" y2="16"></line>
+                            <line x1="20" y1="12" x2="20" y2="3"></line>
+                            <line x1="1" y1="14" x2="7" y2="14"></line>
+                            <line x1="9" y1="8" x2="15" y2="8"></line>
+                            <line x1="17" y1="16" x2="23" y2="16"></line>
+                        </svg>
+                        <span>Graphs</span>
+                    </button>
+                    <div id="graph-settings-dropdown" class="dropdown-menu glass-popover">
+                        <div class="dropdown-header">
+                            <span>Display Graphs</span>
+                            <button type="button" class="btn-text" onclick="toggleAllGraphs(true)">Select All</button>
+                        </div>
+                        <div class="dropdown-body">
+                            <label class="toggle-item">
+                                <input type="checkbox" id="toggle-graph-signal" checked onchange="toggleGraphVisibility('signal', this.checked)">
+                                <span class="toggle-custom"></span>
+                                <span class="toggle-label">Signal Level</span>
+                            </label>
+                            <label class="toggle-item">
+                                <input type="checkbox" id="toggle-graph-range" checked onchange="toggleGraphVisibility('range', this.checked)">
+                                <span class="toggle-custom"></span>
+                                <span class="toggle-label">Range</span>
+                            </label>
+                            <label class="toggle-item">
+                                <input type="checkbox" id="toggle-graph-aircraft" checked onchange="toggleGraphVisibility('aircraft', this.checked)">
+                                <span class="toggle-custom"></span>
+                                <span class="toggle-label">Aircraft</span>
+                            </label>
+                            <label class="toggle-item">
+                                <input type="checkbox" id="toggle-graph-traffic" checked onchange="toggleGraphVisibility('traffic', this.checked)">
+                                <span class="toggle-custom"></span>
+                                <span class="toggle-label">Landings & Departures</span>
+                            </label>
+                            <label class="toggle-item">
+                                <input type="checkbox" id="toggle-graph-temperature" checked onchange="toggleGraphVisibility('temperature', this.checked)">
+                                <span class="toggle-custom"></span>
+                                <span class="toggle-label">System Temperature</span>
+                            </label>
+                            <label class="toggle-item">
+                                <input type="checkbox" id="toggle-graph-memory" checked onchange="toggleGraphVisibility('memory', this.checked)">
+                                <span class="toggle-custom"></span>
+                                <span class="toggle-label">Memory Utilization</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="status-indicator">
                     <span class="pulse-dot"></span>
                     <span id="status-text">Connected</span>
@@ -117,10 +173,10 @@
             </div>
         </div>
 
-        <!-- Main Graphs Grid (5 Dedicated Core Graphs) -->
+        <!-- Main Graphs Grid (6 Dedicated Core Graphs) -->
         <main class="graphs-grid">
             <!-- 1. Signal Level Graph -->
-            <article class="graph-card">
+            <article class="graph-card" id="card-signal">
                 <div class="card-header">
                     <div class="card-title">
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="title-icon icon-emerald">
@@ -156,7 +212,7 @@
             </article>
 
             <!-- 2. Range Graph -->
-            <article class="graph-card">
+            <article class="graph-card" id="card-range">
                 <div class="card-header">
                     <div class="card-title">
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="title-icon icon-cyan">
@@ -190,7 +246,7 @@
             </article>
 
             <!-- 3. Aircraft Graph -->
-            <article class="graph-card">
+            <article class="graph-card" id="card-aircraft">
                 <div class="card-header">
                     <div class="card-title">
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="title-icon icon-blue">
@@ -222,7 +278,7 @@
             </article>
 
             <!-- 4. Traffic Graph (Landings & Departures) -->
-            <article class="graph-card">
+            <article class="graph-card" id="card-traffic">
                 <div class="card-header">
                     <div class="card-title">
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="title-icon icon-emerald">
@@ -255,7 +311,7 @@
             </article>
 
             <!-- 5. System Temperature -->
-            <article class="graph-card">
+            <article class="graph-card" id="card-temperature">
                 <div class="card-header">
                     <div class="card-title">
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="title-icon icon-emerald">
@@ -287,7 +343,7 @@
             </article>
 
             <!-- 6. Memory Utilization -->
-            <article class="graph-card">
+            <article class="graph-card" id="card-memory">
                 <div class="card-header">
                     <div class="card-title">
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="title-icon icon-cyan">
