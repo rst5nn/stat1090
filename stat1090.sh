@@ -528,15 +528,15 @@ case "$TYPE" in
             "VDEF:max_reader=reader,MAXIMUM" \
             "VDEF:avg_bg=bg,AVERAGE" \
             "VDEF:max_bg=bg,MAXIMUM" \
-            "AREA:reader#${NOISE_LINE}aa:USB/Reader   " \
+            "AREA:demod#${NOISE_LINE}aa:Demodulator   " \
+            "GPRINT:avg_demod:Avg\:%4.1lf%%   " \
+            "GPRINT:max_demod:Max\:%4.1lf%%   " \
+            "AREA:reader#${MEDIAN_SIGNAL}aa:USB/Reader   :STACK" \
             "GPRINT:avg_reader:Avg\:%4.1lf%%   " \
             "GPRINT:max_reader:Max\:%4.1lf%%   " \
-            "AREA:bg#${PEAK_SIGNAL}aa:Background/Other   :STACK" \
+            "AREA:bg#${PEAK_RANGE}aa:Background/Other   :STACK" \
             "GPRINT:avg_bg:Avg\:%4.1lf%%   " \
-            "GPRINT:max_bg:Max\:%4.1lf%%   " \
-            "AREA:demod#${MEDIAN_SIGNAL}aa:Demodulator   :STACK" \
-            "GPRINT:avg_demod:Avg\:%4.1lf%%   " \
-            "GPRINT:max_demod:Max\:%4.1lf%%\c" \
+            "GPRINT:max_bg:Max\:%4.1lf%%\c" \
             --watermark "stat1090 | Rendered: $NOW_STR" &>/dev/null
         ;;
 
@@ -574,9 +574,9 @@ case "$TYPE" in
             "GPRINT:used_last:%4.1lf%sB   " \
             "AREA:buffers#${MEDIAN_SIGNAL}aa:Buffers\::STACK" \
             "GPRINT:buffers_last:%4.1lf%sB   " \
-            "AREA:cached#${PEAK_SIGNAL}aa:Cache\::STACK" \
+            "AREA:cached#${PEAK_RANGE}aa:Cache\::STACK" \
             "GPRINT:cached_last:%4.1lf%sB   " \
-            "AREA:free#88888844:Free\::STACK" \
+            "AREA:free#${MGRID}aa:Free\::STACK" \
             "GPRINT:free_last:%4.1lf%sB\c" \
             --watermark "stat1090 | Rendered: $NOW_STR" &>/dev/null
         ;;
