@@ -505,11 +505,44 @@ function toggleAllGraphs(showAll) {
     }
 }
 
+function positionDropdown() {
+    const dropdown = document.getElementById('graph-settings-dropdown');
+    if (!dropdown) return;
+    const wrapper = dropdown.parentElement;
+    if (!wrapper) return;
+
+    dropdown.style.left = '';
+    dropdown.style.right = '0';
+    dropdown.style.maxWidth = '';
+
+    const viewportWidth = window.innerWidth;
+    const padding = 12;
+    const wrapperRect = wrapper.getBoundingClientRect();
+
+    const maxAllowedWidth = viewportWidth - (padding * 2);
+    dropdown.style.maxWidth = `${maxAllowedWidth}px`;
+    const dropdownWidth = Math.min(dropdown.offsetWidth || 250, maxAllowedWidth);
+
+    let targetX = wrapperRect.right - dropdownWidth;
+
+    const minX = padding;
+    const maxX = viewportWidth - dropdownWidth - padding;
+    targetX = Math.max(minX, Math.min(targetX, maxX));
+
+    const leftOffset = targetX - wrapperRect.left;
+
+    dropdown.style.left = `${leftOffset}px`;
+    dropdown.style.right = 'auto';
+}
+
 function toggleGraphSettingsMenu(event) {
     if (event) event.stopPropagation();
     const dropdown = document.getElementById('graph-settings-dropdown');
     if (dropdown) {
-        dropdown.classList.toggle('active');
+        const isActive = dropdown.classList.toggle('active');
+        if (isActive) {
+            positionDropdown();
+        }
     }
 }
 
@@ -527,6 +560,12 @@ function initDropdownListeners() {
         if (e.key === 'Escape') {
             const dropdown = document.getElementById('graph-settings-dropdown');
             if (dropdown) dropdown.classList.remove('active');
+        }
+    });
+    window.addEventListener('resize', () => {
+        const dropdown = document.getElementById('graph-settings-dropdown');
+        if (dropdown && dropdown.classList.contains('active')) {
+            positionDropdown();
         }
     });
 }
