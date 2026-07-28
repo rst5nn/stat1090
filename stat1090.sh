@@ -507,7 +507,7 @@ case "$TYPE" in
             --width "$width" \
             --height "$height" \
             "${COLORS[@]}" \
-            --title "CPU Utilization" \
+            --title "Decoder Usage" \
             --vertical-label "CPU %" \
             --right-axis 1:0 \
             --right-axis-label "CPU %" \
