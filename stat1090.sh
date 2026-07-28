@@ -572,9 +572,9 @@ case "$TYPE" in
             "VDEF:free_last=free,LAST" \
             "AREA:used#${NOISE_LINE}aa:Used\::STACK" \
             "GPRINT:used_last:%4.1lf%sB   " \
-            "AREA:buffers#${MEDIAN_SIGNAL}aa:Buffers\::STACK" \
+            "AREA:buffers#${PEAK_RANGE}aa:Buffers\::STACK" \
             "GPRINT:buffers_last:%4.1lf%sB   " \
-            "AREA:cached#${PEAK_RANGE}aa:Cache\::STACK" \
+            "AREA:cached#${MEDIAN_SIGNAL}aa:Cache\::STACK" \
             "GPRINT:cached_last:%4.1lf%sB   " \
             "AREA:free#${MGRID}aa:Free\::STACK" \
             "GPRINT:free_last:%4.1lf%sB\c" \
