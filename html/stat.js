@@ -25,7 +25,8 @@ GRAPH_TYPES.forEach(type => {
 const PRESET_LABELS = {
     '2h': 'Last 2 Hours',
     '8h': 'Last 8 Hours',
-    '24h': 'Last 24 Hours'
+    '24h': 'Last 24 Hours',
+    '7d': 'Last 7 Days'
 };
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -402,6 +403,7 @@ function generateSaveFilename(type) {
         if (activePreset === '2h') durationMs = 2 * 60 * 60 * 1000;
         else if (activePreset === '8h') durationMs = 8 * 60 * 60 * 1000;
         else if (activePreset === '24h') durationMs = 24 * 60 * 60 * 1000;
+        else if (activePreset === '7d') durationMs = 7 * 24 * 60 * 60 * 1000;
 
         const dFrom = new Date(now.getTime() - durationMs);
         fromStr = formatDateNoColons(dFrom);
