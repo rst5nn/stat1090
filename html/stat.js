@@ -431,9 +431,9 @@ function openModal(graphType) {
     const srcUrl = getApiGraphUrl(graphType, fromQuery, tillQuery, timestamp);
 
     const titles = {
-        'range': 'Range (Nautical Miles)',
+        'range': 'Reception range (Nautical Miles)',
         'signal': 'Signal Level (dBFS)',
-        'aircraft': 'Aircraft Tracked',
+        'aircraft': 'Aircrafts Tracked',
         'messages': 'Message Rate (Messages/Second)',
         'tracks': 'Tracks Seen (Tracks/Hour)',
         'traffic': 'Landings & Departures (Hourly)',
