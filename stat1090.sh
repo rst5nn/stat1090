@@ -33,46 +33,14 @@ FRAME="30363d"
 GRID="2d333b"
 MGRID="444c56"
 
-# Dark Theme Color Palette (Antigravity Design Expert)
-NOISE_FILL="1c3d2e"
-NOISE_LINE="34d399"
-EMERALD="10b981"
-PEAK_SIGNAL="f43f5e"
-MEDIAN_SIGNAL="38bdf8"
-MIN_SIGNAL="fbbf24"
-AIRCRAFT_AREA="1c3d2e"
-AREA_FILL_PRIMARY="1c3d2e"
-ADSB_POS_LINE="38bdf8"
-MAX_RANGE_LINE="38bdf8"
-CLOSEST_DIST="f43f5e"
-MEDIAN_DIST="fbbf24"
-PEAK_RANGE="818cf8"
-
-# Explicit Semantic Color Constants
-COLOR_LANDINGS="34d399"
-COLOR_DEPARTURES="38bdf8"
-COLOR_INDIGO="818cf8"
-
-LGREEN="1db992"
-DGREEN="5cb85c"
-GREEN="386619"
-
-LBLUE="7fc7ff"
-BLUE="38bdf8"
-ABLUE="0c5685"
-DBLUE="0033AA"
-
-LCYAN="29a7e6"
-CYAN="38bdf8"
-
-RED="f43f5e"
-DRED="990000"
-LIGHTYELLOW="FFFF99"
-AGRAY="444444"
-INDIGO="818cf8"
-SILVER="888888"
-ROSE="f43f5e"
-AMBER="fbbf24"
+# Antigravity Design System Color Name Constants
+COLOR_EMERALD="34d399"       # Mint Emerald (Landings, Demodulator, Used, Signal Noise, Aircraft boundary)
+COLOR_CYAN="38bdf8"          # Sky Cyan (Departures, USB/Reader, Cache, Position line, Median Signal, Max Range)
+COLOR_INDIGO="818cf8"        # Indigo Purple (Background/Other, Buffers, Peak Range)
+COLOR_ROSE="f43f5e"          # Rose Red (Peak Signal, Closest Distance)
+COLOR_AMBER="fbbf24"         # Amber Gold (Min Signal, Median Distance)
+COLOR_SILVER="888888"        # Subdued Silver (Reference lines, Averages)
+COLOR_AREA_PRIMARY="1c3d2e"  # Dark primary translucent area fill
 
 if [[ "$colorscheme" == "light" ]]; then
     CANVAS="FFFFFF"
@@ -83,30 +51,14 @@ if [[ "$colorscheme" == "light" ]]; then
     GRID="E9ECEF"
     MGRID="DEE2E6"
 
-    # Light Theme Color Palette
-    NOISE_FILL="E6F4EA"
-    NOISE_LINE="10B981"
-    EMERALD="0d9488"
-    PEAK_SIGNAL="E11D48"
-    MEDIAN_SIGNAL="0284C7"
-    MIN_SIGNAL="D97706"
-    AIRCRAFT_AREA="E6F4EA"
-    AREA_FILL_PRIMARY="E6F4EA"
-    ADSB_POS_LINE="0284C7"
-    MAX_RANGE_LINE="0284C7"
-    CLOSEST_DIST="E11D48"
-    MEDIAN_DIST="D97706"
-    PEAK_RANGE="4F46E5"
-
-    COLOR_LANDINGS="10B981"
-    COLOR_DEPARTURES="0284C7"
+    # Light Theme Color Name Constants
+    COLOR_EMERALD="10B981"
+    COLOR_CYAN="0284C7"
     COLOR_INDIGO="4F46E5"
-
-    LGREEN="7de87d"
-    GREEN="32CD32"
-    DGREEN="228B22"
-    BLUE="0284C7"
-    RED="E11D48"
+    COLOR_ROSE="E11D48"
+    COLOR_AMBER="D97706"
+    COLOR_SILVER="6C757D"
+    COLOR_AREA_PRIMARY="E6F4EA"
 fi
 
 COLORS=(
@@ -226,11 +178,11 @@ case "$TYPE" in
             "CDEF:gps=rgps,UN,cgps,rgps,IF" \
             "VDEF:avgac=all,AVERAGE" \
             "VDEF:maxac=all_max,MAXIMUM" \
-            "AREA:all#$AREA_FILL_PRIMARY" \
-            "LINE1.5:all#$NOISE_LINE:Aircraft Tracked   " \
+            "AREA:all#$COLOR_AREA_PRIMARY" \
+            "LINE1.5:all#$COLOR_EMERALD:Aircraft Tracked   " \
             "GPRINT:avgac:Avg\:%3.0lf   " \
             "GPRINT:maxac:Max\:%3.0lf   " \
-            "LINE1.5:gps#$ADSB_POS_LINE:w/ ADS-B pos.\c" \
+            "LINE1.5:gps#$COLOR_CYAN:w/ ADS-B pos.\c" \
             --watermark "stat1090 | Rendered: $NOW_STR" &>/dev/null
         ;;
 
@@ -274,14 +226,14 @@ case "$TYPE" in
             "CDEF:median=dmedian,$unitconv,*" \
             "VDEF:avgrange=range_a,AVERAGE" \
             "VDEF:peakrange=range,MAXIMUM" \
-            "LINE1.5:range#$MAX_RANGE_LINE:Max Range " \
-            "LINE1:peakrange#$PEAK_RANGE:Max Dist:dashes" \
+            "LINE1.5:range#$COLOR_CYAN:Max Range " \
+            "LINE1:peakrange#$COLOR_INDIGO:Max Dist:dashes" \
             "GPRINT:peakrange:%1.0lf $shortlabel   " \
-            "LINE1:avgrange#$SILVER:Avg:dashes" \
+            "LINE1:avgrange#$COLOR_SILVER:Avg:dashes" \
             "GPRINT:avgrange:%1.0lf $shortlabel   " \
-            "LINE1.5:min#$CLOSEST_DIST:Closest " \
+            "LINE1.5:min#$COLOR_ROSE:Closest " \
             "GPRINT:min:MIN:%4.1lf $shortlabel   " \
-            "LINE1.5:median#$MEDIAN_DIST:Median " \
+            "LINE1.5:median#$COLOR_AMBER:Median " \
             "GPRINT:median:AVERAGE:%4.1lf $shortlabel\c" \
             --watermark "stat1090 | Rendered: $NOW_STR" &>/dev/null
         ;;
@@ -323,14 +275,14 @@ case "$TYPE" in
             "CDEF:bot=noise,UN,-45,-45,IF" \
             "CDEF:noise_area=noise,45,+" \
             "AREA:bot#$CANVAS" \
-            "AREA:noise_area#$AREA_FILL_PRIMARY:STACK" \
-            "LINE1.5:peak#$PEAK_SIGNAL:Peak Signal   " \
-            "LINE1.5:mes#$MEDIAN_SIGNAL:Median Signal   " \
-            "LINE1.5:min#$MIN_SIGNAL:Min Signal   " \
-            "LINE1.5:noise#$NOISE_LINE:Noise Floor   " \
-            "LINE1:avgnoise#$SILVER:Noise Avg:dashes" \
+            "AREA:noise_area#$COLOR_AREA_PRIMARY:STACK" \
+            "LINE1.5:peak#$COLOR_ROSE:Peak Signal   " \
+            "LINE1.5:mes#$COLOR_CYAN:Median Signal   " \
+            "LINE1.5:min#$COLOR_AMBER:Min Signal   " \
+            "LINE1.5:noise#$COLOR_EMERALD:Noise Floor   " \
+            "LINE1:avgnoise#$COLOR_SILVER:Noise Avg:dashes" \
             "GPRINT:avgnoise:%4.1lf   " \
-            "HRULE:-3#$SILVER:-3dBFS   :dashes=5,5" \
+            "HRULE:-3#$COLOR_SILVER:-3dBFS   :dashes=5,5" \
             "GPRINT:strong_percent_vdef:Messages > -3dBFS\: %1.1lf%% of messages\c" \
             --watermark "stat1090 | Rendered: $NOW_STR" &>/dev/null
         ;;
@@ -496,8 +448,8 @@ case "$TYPE" in
             "VDEF:temp_avg=temp,AVERAGE" \
             "VDEF:temp_max=temp,MAXIMUM" \
             "VDEF:temp_min=temp,MINIMUM" \
-            "AREA:temp#${NOISE_LINE}44" \
-            "LINE2:temp#$NOISE_LINE:Temperature  " \
+            "AREA:temp#${COLOR_EMERALD}44" \
+            "LINE2:temp#$COLOR_EMERALD:Temperature  " \
             "GPRINT:temp_avg:Avg\:%4.1lf°C   " \
             "GPRINT:temp_max:Max\:%4.1lf°C   " \
             "GPRINT:temp_min:Min\:%4.1lf°C\c" \
@@ -537,10 +489,10 @@ case "$TYPE" in
             "VDEF:max_reader=reader,MAXIMUM" \
             "VDEF:avg_bg=bg,AVERAGE" \
             "VDEF:max_bg=bg,MAXIMUM" \
-            "AREA:demod#${COLOR_LANDINGS}aa:Demodulator   " \
+            "AREA:demod#${COLOR_EMERALD}aa:Demodulator   " \
             "GPRINT:avg_demod:Avg\:%4.1lf%%   " \
             "GPRINT:max_demod:Max\:%4.1lf%%   " \
-            "AREA:reader#${COLOR_DEPARTURES}aa:USB/Reader   :STACK" \
+            "AREA:reader#${COLOR_CYAN}aa:USB/Reader   :STACK" \
             "GPRINT:avg_reader:Avg\:%4.1lf%%   " \
             "GPRINT:max_reader:Max\:%4.1lf%%   " \
             "AREA:bg#${COLOR_INDIGO}aa:Background/Other   :STACK" \
@@ -579,11 +531,11 @@ case "$TYPE" in
             "VDEF:buffers_last=buffers,LAST" \
             "VDEF:cached_last=cached,LAST" \
             "VDEF:free_last=free,LAST" \
-            "AREA:used#${COLOR_LANDINGS}aa:Used\::STACK" \
+            "AREA:used#${COLOR_EMERALD}aa:Used\::STACK" \
             "GPRINT:used_last:%4.1lf%sB   " \
             "AREA:buffers#${COLOR_INDIGO}aa:Buffers\::STACK" \
             "GPRINT:buffers_last:%4.1lf%sB   " \
-            "AREA:cached#${COLOR_DEPARTURES}aa:Cache\::STACK" \
+            "AREA:cached#${COLOR_CYAN}aa:Cache\::STACK" \
             "GPRINT:cached_last:%4.1lf%sB   " \
             "AREA:free#${MGRID}aa:Free\::STACK" \
             "GPRINT:free_last:%4.1lf%sB\c" \
