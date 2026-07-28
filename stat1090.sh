@@ -48,6 +48,11 @@ CLOSEST_DIST="f43f5e"
 MEDIAN_DIST="fbbf24"
 PEAK_RANGE="818cf8"
 
+# Explicit Semantic Color Constants
+COLOR_LANDINGS="34d399"
+COLOR_DEPARTURES="38bdf8"
+COLOR_INDIGO="818cf8"
+
 LGREEN="1db992"
 DGREEN="5cb85c"
 GREEN="386619"
@@ -92,6 +97,10 @@ if [[ "$colorscheme" == "light" ]]; then
     CLOSEST_DIST="E11D48"
     MEDIAN_DIST="D97706"
     PEAK_RANGE="4F46E5"
+
+    COLOR_LANDINGS="10B981"
+    COLOR_DEPARTURES="0284C7"
+    COLOR_INDIGO="4F46E5"
 
     LGREEN="7de87d"
     GREEN="32CD32"
@@ -444,11 +453,11 @@ case "$TYPE" in
             "CDEF:departures=TIME,3600,%,0,EQ,0,PREV,UN,0,PREV,IF,IF,departures_int,+" \
             "VDEF:max_landings=landings,MAXIMUM" \
             "VDEF:max_departures=departures,MAXIMUM" \
-            "AREA:landings#${NOISE_LINE}44" \
-            "LINE2:landings#$NOISE_LINE:Landings (Arrivals) " \
+            "AREA:landings#${COLOR_LANDINGS}44" \
+            "LINE2:landings#$COLOR_LANDINGS:Landings (Arrivals) " \
             "GPRINT:max_landings:Max/Hour\:%3.0lf   " \
-            "AREA:departures#${MEDIAN_SIGNAL}44" \
-            "LINE2:departures#$MEDIAN_SIGNAL:Departures           " \
+            "AREA:departures#${COLOR_DEPARTURES}44" \
+            "LINE2:departures#$COLOR_DEPARTURES:Departures           " \
             "GPRINT:max_departures:Max/Hour\:%3.0lf\c" \
             --watermark "stat1090 | Rendered: $NOW_STR" &>/dev/null
         ;;
@@ -528,13 +537,13 @@ case "$TYPE" in
             "VDEF:max_reader=reader,MAXIMUM" \
             "VDEF:avg_bg=bg,AVERAGE" \
             "VDEF:max_bg=bg,MAXIMUM" \
-            "AREA:demod#${NOISE_LINE}aa:Demodulator   " \
+            "AREA:demod#${COLOR_LANDINGS}aa:Demodulator   " \
             "GPRINT:avg_demod:Avg\:%4.1lf%%   " \
             "GPRINT:max_demod:Max\:%4.1lf%%   " \
-            "AREA:reader#${MEDIAN_SIGNAL}aa:USB/Reader   :STACK" \
+            "AREA:reader#${COLOR_DEPARTURES}aa:USB/Reader   :STACK" \
             "GPRINT:avg_reader:Avg\:%4.1lf%%   " \
             "GPRINT:max_reader:Max\:%4.1lf%%   " \
-            "AREA:bg#${PEAK_RANGE}aa:Background/Other   :STACK" \
+            "AREA:bg#${COLOR_INDIGO}aa:Background/Other   :STACK" \
             "GPRINT:avg_bg:Avg\:%4.1lf%%   " \
             "GPRINT:max_bg:Max\:%4.1lf%%\c" \
             --watermark "stat1090 | Rendered: $NOW_STR" &>/dev/null
@@ -570,11 +579,11 @@ case "$TYPE" in
             "VDEF:buffers_last=buffers,LAST" \
             "VDEF:cached_last=cached,LAST" \
             "VDEF:free_last=free,LAST" \
-            "AREA:used#${NOISE_LINE}aa:Used\::STACK" \
+            "AREA:used#${COLOR_LANDINGS}aa:Used\::STACK" \
             "GPRINT:used_last:%4.1lf%sB   " \
-            "AREA:buffers#${PEAK_RANGE}aa:Buffers\::STACK" \
+            "AREA:buffers#${COLOR_INDIGO}aa:Buffers\::STACK" \
             "GPRINT:buffers_last:%4.1lf%sB   " \
-            "AREA:cached#${MEDIAN_SIGNAL}aa:Cache\::STACK" \
+            "AREA:cached#${COLOR_DEPARTURES}aa:Cache\::STACK" \
             "GPRINT:cached_last:%4.1lf%sB   " \
             "AREA:free#${MGRID}aa:Free\::STACK" \
             "GPRINT:free_last:%4.1lf%sB\c" \
