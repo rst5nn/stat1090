@@ -21,6 +21,7 @@
     --accent-blue: #6366f1;
     --accent-amber: #f59e0b;
     --accent-rose: #f43f5e;
+    --accent-purple: #a855f7;
 
     --text-main: #f4f4f5;
     --text-muted: #94a3b8;
@@ -60,6 +61,7 @@
     --accent-blue: #4f46e5;
     --accent-amber: #d97706;
     --accent-rose: #e11d48;
+    --accent-purple: #7e22ce;
 
     --text-main: #0f172a;
     --text-muted: #64748b;
@@ -493,6 +495,7 @@ body {
 .title-icon.icon-emerald { color: var(--accent-emerald); }
 .title-icon.icon-blue { color: var(--accent-blue); }
 .title-icon.icon-amber { color: var(--accent-amber); }
+.title-icon.icon-purple { color: var(--accent-purple); }
 
 .card-actions {
     display: flex;

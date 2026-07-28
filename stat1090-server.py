@@ -37,7 +37,7 @@ def find_stat_sh():
     return candidates[0]
 
 STAT_SH = find_stat_sh()
-ALLOWED_GRAPHS = {'stat1090', 'messages', 'messages_received', 'message_rate', 'aircraft', 'aircraft_seen', 'tracks', 'tracks_seen', 'adsb_tracks_seen', 'range', 'adsb_range', 'signal', 'signal_level', 'traffic', 'landings', 'departures', 'arrivals', 'temperature', 'temp', 'memory', 'mem'}
+ALLOWED_GRAPHS = {'stat1090', 'messages', 'messages_received', 'message_rate', 'aircraft', 'aircraft_seen', 'tracks', 'tracks_seen', 'adsb_tracks_seen', 'range', 'adsb_range', 'signal', 'signal_level', 'traffic', 'landings', 'departures', 'arrivals', 'cpu', 'cpu_usage', 'cpu_utilization', 'temperature', 'temp', 'memory', 'mem'}
 
 def sanitize_time_param(val):
     """Sanitize time inputs to prevent shell injection while allowing timestamps, dates, and relative formats."""
@@ -91,6 +91,8 @@ class Stat1090RequestHandler(SimpleHTTPRequestHandler):
             graph_type = "tracks"
         elif graph_type in ("landings", "arrivals", "departures"):
             graph_type = "traffic"
+        elif graph_type in ("cpu_usage", "cpu_utilization"):
+            graph_type = "cpu"
         elif graph_type == "temp":
             graph_type = "temperature"
         elif graph_type == "mem":
@@ -172,7 +174,7 @@ class Stat1090RequestHandler(SimpleHTTPRequestHandler):
             "status": "online",
             "time": datetime.now().isoformat(),
             "epoch": int(time.time()),
-            "graphs": ["signal", "range", "aircraft", "traffic", "temperature", "memory"],
+            "graphs": ["signal", "range", "aircraft", "traffic", "cpu", "temperature", "memory"],
             "db_path": db_dir,
             "rrdtool_installed": os.path.exists("/usr/bin/rrdtool") or os.path.exists("/usr/local/bin/rrdtool")
         }

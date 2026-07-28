@@ -13,7 +13,7 @@ let refreshTimer = null;
 let refreshIntervalSeconds = parseInt(localStorage.getItem('stat1090_refresh') || '0', 10);
 let activeTheme = localStorage.getItem('stat1090_theme') || 'dark';
 
-const GRAPH_TYPES = ['signal', 'range', 'aircraft', 'traffic', 'temperature', 'memory'];
+const GRAPH_TYPES = ['signal', 'range', 'aircraft', 'traffic', 'cpu', 'temperature', 'memory'];
 let graphVisibility = JSON.parse(localStorage.getItem('stat1090_graph_visibility') || '{}');
 
 GRAPH_TYPES.forEach(type => {
@@ -439,6 +439,7 @@ function openModal(graphType) {
         'messages': 'Message Rate (Messages/Second)',
         'tracks': 'Tracks Seen (Tracks/Hour)',
         'traffic': 'Landings & Departures (Hourly)',
+        'cpu': 'CPU Utilization',
         'temperature': 'System Temperature',
         'memory': 'Memory Utilization'
     };

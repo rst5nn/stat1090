@@ -495,6 +495,51 @@ case "$TYPE" in
             --watermark "stat1090 | Rendered: $NOW_STR" &>/dev/null
         ;;
 
+    cpu|"cpu_utilization"|"cpu_usage")
+        CPU_DEMOD="$(check_rrd "$DB_DIR/stat1090_cpu-demod.rrd")"
+        CPU_READER="$(check_rrd "$DB_DIR/stat1090_cpu-reader.rrd")"
+        CPU_BG="$(check_rrd "$DB_DIR/stat1090_cpu-background.rrd")"
+
+        rrdtool graph \
+            "$TMP_OUT" \
+            "${START_OPT[@]}" \
+            "${END_OPT[@]}" \
+            --width "$width" \
+            --height "$height" \
+            "${COLORS[@]}" \
+            --title "CPU Utilization" \
+            --vertical-label "CPU %" \
+            --right-axis 1:0 \
+            --right-axis-label "CPU %" \
+            --right-axis-format "%1.0lf" \
+            --units-exponent 0 \
+            --lower-limit 0 \
+            --rigid \
+            "TEXTALIGN:center" \
+            "DEF:demod_raw=${CPU_DEMOD}:value:AVERAGE" \
+            "DEF:reader_raw=${CPU_READER}:value:AVERAGE" \
+            "DEF:bg_raw=${CPU_BG}:value:AVERAGE" \
+            "CDEF:demod=demod_raw,10,/" \
+            "CDEF:reader=reader_raw,10,/" \
+            "CDEF:bg=bg_raw,10,/" \
+            "VDEF:avg_demod=demod,AVERAGE" \
+            "VDEF:max_demod=demod,MAXIMUM" \
+            "VDEF:avg_reader=reader,AVERAGE" \
+            "VDEF:max_reader=reader,MAXIMUM" \
+            "VDEF:avg_bg=bg,AVERAGE" \
+            "VDEF:max_bg=bg,MAXIMUM" \
+            "AREA:reader#${NOISE_LINE}aa:USB/Reader   " \
+            "GPRINT:avg_reader:Avg\:%4.1lf%%   " \
+            "GPRINT:max_reader:Max\:%4.1lf%%   " \
+            "AREA:bg#${PEAK_SIGNAL}aa:Background/Other   :STACK" \
+            "GPRINT:avg_bg:Avg\:%4.1lf%%   " \
+            "GPRINT:max_bg:Max\:%4.1lf%%   " \
+            "AREA:demod#${MEDIAN_SIGNAL}aa:Demodulator   :STACK" \
+            "GPRINT:avg_demod:Avg\:%4.1lf%%   " \
+            "GPRINT:max_demod:Max\:%4.1lf%%\c" \
+            --watermark "stat1090 | Rendered: $NOW_STR" &>/dev/null
+        ;;
+
     memory|mem)
         MEM_USED="$(check_rrd "$DB_DIR/stat1090_memory-used.rrd")"
         MEM_BUFFERS="$(check_rrd "$DB_DIR/stat1090_memory-buffers.rrd")"

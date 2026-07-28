@@ -95,6 +95,11 @@
                                 <span class="toggle-label">Landings & Departures</span>
                             </label>
                             <label class="toggle-item">
+                                <input type="checkbox" id="toggle-graph-cpu" checked onchange="toggleGraphVisibility('cpu', this.checked)">
+                                <span class="toggle-custom"></span>
+                                <span class="toggle-label">CPU Usage</span>
+                            </label>
+                            <label class="toggle-item">
                                 <input type="checkbox" id="toggle-graph-temperature" checked onchange="toggleGraphVisibility('temperature', this.checked)">
                                 <span class="toggle-custom"></span>
                                 <span class="toggle-label">System Temperature</span>
@@ -311,7 +316,48 @@
                 </div>
             </article>
 
-            <!-- 5. System Temperature -->
+            <!-- 5. CPU Usage Graph -->
+            <article class="graph-card" id="card-cpu">
+                <div class="card-header">
+                    <div class="card-title">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="title-icon icon-purple">
+                            <rect x="4" y="4" width="16" height="16" rx="2" ry="2"></rect>
+                            <rect x="9" y="9" width="6" height="6"></rect>
+                            <line x1="9" y1="1" x2="9" y2="4"></line>
+                            <line x1="15" y1="1" x2="15" y2="4"></line>
+                            <line x1="9" y1="20" x2="9" y2="23"></line>
+                            <line x1="15" y1="20" x2="15" y2="23"></line>
+                            <line x1="20" y1="9" x2="23" y2="9"></line>
+                            <line x1="20" y1="15" x2="23" y2="15"></line>
+                            <line x1="1" y1="9" x2="4" y2="9"></line>
+                            <line x1="1" y1="15" x2="4" y2="15"></line>
+                        </svg>
+                        <h2>CPU Usage</h2>
+                    </div>
+                    <div class="card-actions">
+                        <button class="btn btn-sm btn-outline" onclick="saveGraphImage('cpu', this)" title="Save Image PNG">
+                            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                <polyline points="7 10 12 15 17 10"></polyline>
+                                <line x1="12" y1="15" x2="12" y2="3"></line>
+                            </svg>
+                            <span>Save</span>
+                        </button>
+                        <button class="btn btn-sm btn-outline" onclick="openModal('cpu')" title="Full view">
+                            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"></path>
+                            </svg>
+                            <span>Expand</span>
+                        </button>
+                    </div>
+                </div>
+                <div class="card-body img-container" onclick="openModal('cpu')">
+                    <div class="loader-overlay" id="loader-cpu"><div class="spinner"></div></div>
+                    <img id="img-cpu" src="" alt="CPU Usage Graph" class="graph-img">
+                </div>
+            </article>
+
+            <!-- 6. System Temperature -->
             <article class="graph-card" id="card-temperature">
                 <div class="card-header">
                     <div class="card-title">
