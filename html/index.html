@@ -97,7 +97,7 @@
                             <label class="toggle-item">
                                 <input type="checkbox" id="toggle-graph-cpu" checked onchange="toggleGraphVisibility('cpu', this.checked)">
                                 <span class="toggle-custom"></span>
-                                <span class="toggle-label">Decoder Usage</span>
+                                <span class="toggle-label">Decoder CPU Usage</span>
                             </label>
                             <label class="toggle-item">
                                 <input type="checkbox" id="toggle-graph-temperature" checked onchange="toggleGraphVisibility('temperature', this.checked)">
@@ -316,7 +316,7 @@
                 </div>
             </article>
 
-            <!-- 5. Decoder Usage Graph -->
+            <!-- 5. Decoder CPU Usage Graph -->
             <article class="graph-card" id="card-cpu">
                 <div class="card-header">
                     <div class="card-title">
@@ -332,7 +332,7 @@
                             <line x1="1" y1="9" x2="4" y2="9"></line>
                             <line x1="1" y1="15" x2="4" y2="15"></line>
                         </svg>
-                        <h2>Decoder Usage</h2>
+                        <h2>Decoder CPU Usage</h2>
                     </div>
                     <div class="card-actions">
                         <button class="btn btn-sm btn-outline" onclick="saveGraphImage('cpu', this)" title="Save Image PNG">
@@ -353,7 +353,7 @@
                 </div>
                 <div class="card-body img-container" onclick="openModal('cpu')">
                     <div class="loader-overlay" id="loader-cpu"><div class="spinner"></div></div>
-                    <img id="img-cpu" src="" alt="Decoder Usage Graph" class="graph-img">
+                    <img id="img-cpu" src="" alt="Decoder CPU Usage Graph" class="graph-img">
                 </div>
             </article>
 

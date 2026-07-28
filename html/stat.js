@@ -439,7 +439,7 @@ function openModal(graphType) {
         'messages': 'Message Rate (Messages/Second)',
         'tracks': 'Tracks Seen (Tracks/Hour)',
         'traffic': 'Landings & Departures (Hourly)',
-        'cpu': 'Decoder Usage',
+        'cpu': 'Decoder CPU Usage',
         'temperature': 'System Temperature',
         'memory': 'Memory Utilization'
     };
