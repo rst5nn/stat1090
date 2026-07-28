@@ -32,6 +32,7 @@ const PRESET_LABELS = {
 document.addEventListener('DOMContentLoaded', () => {
     initTheme();
     initGraphVisibility();
+    initDragAndDrop();
     initDateTimeInputs();
     parseUrlParameters();
     initRefreshButtons();
@@ -570,6 +571,128 @@ function initDropdownListeners() {
         if (dropdown && dropdown.classList.contains('active')) {
             positionDropdown();
         }
+    });
+}
+
+/**
+ * Drag & Drop Reordering for Graph Cards
+ */
+let graphOrder = JSON.parse(localStorage.getItem('stat1090_graph_order') || '[]');
+
+function initDragAndDrop() {
+    const grid = document.getElementById('graphs-grid');
+    if (!grid) return;
+
+    if (Array.isArray(graphOrder) && graphOrder.length > 0) {
+        applyGraphOrder(grid);
+    }
+
+    const cards = grid.querySelectorAll('.graph-card');
+    let draggedCard = null;
+
+    cards.forEach(card => {
+        card.setAttribute('draggable', 'true');
+
+        card.querySelectorAll('button, img, svg').forEach(el => {
+            el.setAttribute('draggable', 'false');
+        });
+
+        card.addEventListener('dragstart', (e) => {
+            draggedCard = card;
+            card.classList.add('dragging');
+            e.dataTransfer.effectAllowed = 'move';
+            const type = card.getAttribute('data-type') || card.id.replace('card-', '');
+            e.dataTransfer.setData('text/plain', type);
+        });
+
+        card.addEventListener('dragend', () => {
+            if (draggedCard) {
+                draggedCard.classList.remove('dragging');
+                draggedCard = null;
+            }
+            cards.forEach(c => c.classList.remove('drag-over-above', 'drag-over-below'));
+            saveCurrentGraphOrder();
+        });
+
+        card.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            e.dataTransfer.dropEffect = 'move';
+            if (!draggedCard || draggedCard === card) return;
+
+            const rect = card.getBoundingClientRect();
+            const midpoint = rect.top + rect.height / 2;
+
+            cards.forEach(c => c.classList.remove('drag-over-above', 'drag-over-below'));
+            if (e.clientY < midpoint) {
+                card.classList.add('drag-over-above');
+            } else {
+                card.classList.add('drag-over-below');
+            }
+        });
+
+        card.addEventListener('dragleave', () => {
+            card.classList.remove('drag-over-above', 'drag-over-below');
+        });
+
+        card.addEventListener('drop', (e) => {
+            e.preventDefault();
+            card.classList.remove('drag-over-above', 'drag-over-below');
+
+            if (!draggedCard || draggedCard === card) return;
+
+            const rect = card.getBoundingClientRect();
+            const midpoint = rect.top + rect.height / 2;
+
+            if (e.clientY < midpoint) {
+                grid.insertBefore(draggedCard, card);
+            } else {
+                grid.insertBefore(draggedCard, card.nextSibling);
+            }
+
+            saveCurrentGraphOrder();
+        });
+    });
+}
+
+function saveCurrentGraphOrder() {
+    const grid = document.getElementById('graphs-grid');
+    if (!grid) return;
+
+    const currentCards = Array.from(grid.querySelectorAll('.graph-card'));
+    const order = currentCards.map(c => c.getAttribute('data-type') || c.id.replace('card-', ''));
+    localStorage.setItem('stat1090_graph_order', JSON.stringify(order));
+
+    GRAPH_TYPES.sort((a, b) => {
+        const idxA = order.indexOf(a);
+        const idxB = order.indexOf(b);
+        if (idxA === -1) return 1;
+        if (idxB === -1) return -1;
+        return idxA - idxB;
+    });
+}
+
+function applyGraphOrder(grid) {
+    if (!Array.isArray(graphOrder) || graphOrder.length === 0) return;
+
+    const cardMap = {};
+    const existingCards = grid.querySelectorAll('.graph-card');
+    existingCards.forEach(c => {
+        const type = c.getAttribute('data-type') || c.id.replace('card-', '');
+        cardMap[type] = c;
+    });
+
+    graphOrder.forEach(type => {
+        if (cardMap[type]) {
+            grid.appendChild(cardMap[type]);
+        }
+    });
+
+    GRAPH_TYPES.sort((a, b) => {
+        const idxA = graphOrder.indexOf(a);
+        const idxB = graphOrder.indexOf(b);
+        if (idxA === -1) return 1;
+        if (idxB === -1) return -1;
+        return idxA - idxB;
     });
 }
 

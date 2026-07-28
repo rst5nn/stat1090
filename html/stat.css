@@ -764,9 +764,50 @@ body {
     }
 }
 
-/* Graph card visibility transition */
-.graph-card {
-    transition: opacity 0.3s ease, transform 0.3s ease, max-height 0.3s ease, margin 0.3s ease;
+/* Graph card visibility transition & Drag-and-Drop */
+.drag-handle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-dim);
+    cursor: grab;
+    padding: 2px 4px;
+    margin-right: 0.15rem;
+    border-radius: var(--radius-sm);
+    transition: var(--transition);
+    opacity: 0.5;
+}
+
+.graph-card:hover .drag-handle {
+    opacity: 0.95;
+}
+
+.drag-handle:hover {
+    color: var(--text-main);
+    background: var(--bg-control);
+    opacity: 1;
+}
+
+.graph-card[draggable="true"] {
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+.graph-card.dragging {
+    opacity: 0.45;
+    transform: scale(0.985);
+    border-color: var(--accent-emerald);
+    box-shadow: 0 16px 36px rgba(16, 185, 129, 0.25);
+    cursor: grabbing;
+}
+
+.graph-card.drag-over-above {
+    border-top: 2px solid var(--accent-emerald) !important;
+    box-shadow: 0 -6px 16px rgba(16, 185, 129, 0.25);
+}
+
+.graph-card.drag-over-below {
+    border-bottom: 2px solid var(--accent-emerald) !important;
+    box-shadow: 0 6px 16px rgba(16, 185, 129, 0.25);
 }
 
 .graph-card.hidden {

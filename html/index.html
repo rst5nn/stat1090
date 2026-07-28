@@ -179,12 +179,22 @@
             </div>
         </div>
 
-        <!-- Main Graphs Grid (6 Dedicated Core Graphs) -->
-        <main class="graphs-grid">
+        <!-- Main Graphs Grid (7 Dedicated Core Graphs) -->
+        <main class="graphs-grid" id="graphs-grid">
             <!-- 1. Signal Level Graph -->
-            <article class="graph-card" id="card-signal">
+            <article class="graph-card" id="card-signal" data-type="signal" draggable="true">
                 <div class="card-header">
                     <div class="card-title">
+                        <span class="drag-handle" title="Drag to reorder card">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="9" cy="5" r="1.2" fill="currentColor"></circle>
+                                <circle cx="9" cy="12" r="1.2" fill="currentColor"></circle>
+                                <circle cx="9" cy="19" r="1.2" fill="currentColor"></circle>
+                                <circle cx="15" cy="5" r="1.2" fill="currentColor"></circle>
+                                <circle cx="15" cy="12" r="1.2" fill="currentColor"></circle>
+                                <circle cx="15" cy="19" r="1.2" fill="currentColor"></circle>
+                            </svg>
+                        </span>
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="title-icon icon-emerald">
                             <path d="M2 20h20"></path>
                             <path d="M6 20v-4"></path>
@@ -218,9 +228,19 @@
             </article>
 
             <!-- 2. Range Graph -->
-            <article class="graph-card" id="card-range">
+            <article class="graph-card" id="card-range" data-type="range" draggable="true">
                 <div class="card-header">
                     <div class="card-title">
+                        <span class="drag-handle" title="Drag to reorder card">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="9" cy="5" r="1.2" fill="currentColor"></circle>
+                                <circle cx="9" cy="12" r="1.2" fill="currentColor"></circle>
+                                <circle cx="9" cy="19" r="1.2" fill="currentColor"></circle>
+                                <circle cx="15" cy="5" r="1.2" fill="currentColor"></circle>
+                                <circle cx="15" cy="12" r="1.2" fill="currentColor"></circle>
+                                <circle cx="15" cy="19" r="1.2" fill="currentColor"></circle>
+                            </svg>
+                        </span>
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="title-icon icon-cyan">
                             <circle cx="12" cy="12" r="10"></circle>
                             <circle cx="12" cy="12" r="6"></circle>
@@ -252,9 +272,19 @@
             </article>
 
             <!-- 3. Aircraft Graph -->
-            <article class="graph-card" id="card-aircraft">
+            <article class="graph-card" id="card-aircraft" data-type="aircraft" draggable="true">
                 <div class="card-header">
                     <div class="card-title">
+                        <span class="drag-handle" title="Drag to reorder card">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="9" cy="5" r="1.2" fill="currentColor"></circle>
+                                <circle cx="9" cy="12" r="1.2" fill="currentColor"></circle>
+                                <circle cx="9" cy="19" r="1.2" fill="currentColor"></circle>
+                                <circle cx="15" cy="5" r="1.2" fill="currentColor"></circle>
+                                <circle cx="15" cy="12" r="1.2" fill="currentColor"></circle>
+                                <circle cx="15" cy="19" r="1.2" fill="currentColor"></circle>
+                            </svg>
+                        </span>
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="title-icon icon-blue">
                             <path d="M17.8 19.2L16 11l3.5-3.5C21 6 21.5 4 21 3.5c-.5-.5-2.5 0-4 1.5L13.5 8.5 5.3 6.7c-.8-.2-1.6.1-2.1.7l-.6.6 4.9 3.5-3.1 3.1-2.4-.6c-.5-.1-1.1.1-1.4.5l-.2.2 3.1 3.1 3.1 3.1.2-.2c.4-.3.6-.9.5-1.4l-.6-2.4 3.1-3.1 3.5 4.9.6-.6c.6-.5.9-1.3.7-2.1z"></path>
                         </svg>
@@ -284,9 +314,19 @@
             </article>
 
             <!-- 4. Traffic Graph (Landings & Departures) -->
-            <article class="graph-card" id="card-traffic">
+            <article class="graph-card" id="card-traffic" data-type="traffic" draggable="true">
                 <div class="card-header">
                     <div class="card-title">
+                        <span class="drag-handle" title="Drag to reorder card">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="9" cy="5" r="1.2" fill="currentColor"></circle>
+                                <circle cx="9" cy="12" r="1.2" fill="currentColor"></circle>
+                                <circle cx="9" cy="19" r="1.2" fill="currentColor"></circle>
+                                <circle cx="15" cy="5" r="1.2" fill="currentColor"></circle>
+                                <circle cx="15" cy="12" r="1.2" fill="currentColor"></circle>
+                                <circle cx="15" cy="19" r="1.2" fill="currentColor"></circle>
+                            </svg>
+                        </span>
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="title-icon icon-emerald">
                             <path d="M2 22h20"></path>
                             <path d="M14.5 9.5L5.7 14.8l-1.9-1.9 4-4.8L2.5 6 4 4.5l7 2.5 4.8-4 1.9 1.9-5.3 8.8z"></path>
@@ -317,9 +357,19 @@
             </article>
 
             <!-- 5. Decoder CPU Usage Graph -->
-            <article class="graph-card" id="card-cpu">
+            <article class="graph-card" id="card-cpu" data-type="cpu" draggable="true">
                 <div class="card-header">
                     <div class="card-title">
+                        <span class="drag-handle" title="Drag to reorder card">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="9" cy="5" r="1.2" fill="currentColor"></circle>
+                                <circle cx="9" cy="12" r="1.2" fill="currentColor"></circle>
+                                <circle cx="9" cy="19" r="1.2" fill="currentColor"></circle>
+                                <circle cx="15" cy="5" r="1.2" fill="currentColor"></circle>
+                                <circle cx="15" cy="12" r="1.2" fill="currentColor"></circle>
+                                <circle cx="15" cy="19" r="1.2" fill="currentColor"></circle>
+                            </svg>
+                        </span>
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="title-icon icon-purple">
                             <rect x="4" y="4" width="16" height="16" rx="2" ry="2"></rect>
                             <rect x="9" y="9" width="6" height="6"></rect>
@@ -358,9 +408,19 @@
             </article>
 
             <!-- 6. System Temperature -->
-            <article class="graph-card" id="card-temperature">
+            <article class="graph-card" id="card-temperature" data-type="temperature" draggable="true">
                 <div class="card-header">
                     <div class="card-title">
+                        <span class="drag-handle" title="Drag to reorder card">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="9" cy="5" r="1.2" fill="currentColor"></circle>
+                                <circle cx="9" cy="12" r="1.2" fill="currentColor"></circle>
+                                <circle cx="9" cy="19" r="1.2" fill="currentColor"></circle>
+                                <circle cx="15" cy="5" r="1.2" fill="currentColor"></circle>
+                                <circle cx="15" cy="12" r="1.2" fill="currentColor"></circle>
+                                <circle cx="15" cy="19" r="1.2" fill="currentColor"></circle>
+                            </svg>
+                        </span>
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="title-icon icon-emerald">
                             <path d="M14 14.76V3.5a2.5 2.5 0 0 0-5 0v11.26a4.5 4.5 0 1 0 5 0z"></path>
                         </svg>
@@ -389,10 +449,20 @@
                 </div>
             </article>
 
-            <!-- 6. Memory Utilization -->
-            <article class="graph-card" id="card-memory">
+            <!-- 7. Memory Utilization -->
+            <article class="graph-card" id="card-memory" data-type="memory" draggable="true">
                 <div class="card-header">
                     <div class="card-title">
+                        <span class="drag-handle" title="Drag to reorder card">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="9" cy="5" r="1.2" fill="currentColor"></circle>
+                                <circle cx="9" cy="12" r="1.2" fill="currentColor"></circle>
+                                <circle cx="9" cy="19" r="1.2" fill="currentColor"></circle>
+                                <circle cx="15" cy="5" r="1.2" fill="currentColor"></circle>
+                                <circle cx="15" cy="12" r="1.2" fill="currentColor"></circle>
+                                <circle cx="15" cy="19" r="1.2" fill="currentColor"></circle>
+                            </svg>
+                        </span>
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="title-icon icon-cyan">
                             <rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect>
                             <rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect>
