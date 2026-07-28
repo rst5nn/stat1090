@@ -172,7 +172,7 @@ class Stat1090RequestHandler(SimpleHTTPRequestHandler):
             "status": "online",
             "time": datetime.now().isoformat(),
             "epoch": int(time.time()),
-            "graphs": ["range", "signal", "aircraft", "messages", "tracks", "traffic", "temperature", "memory"],
+            "graphs": ["signal", "range", "aircraft", "traffic", "temperature", "memory"],
             "db_path": db_dir,
             "rrdtool_installed": os.path.exists("/usr/bin/rrdtool") or os.path.exists("/usr/local/bin/rrdtool")
         }
