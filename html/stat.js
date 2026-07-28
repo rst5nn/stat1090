@@ -128,6 +128,30 @@ function parseUrlParameters() {
 }
 
 /**
+ * Helper to update From & Till datetime-local inputs to reflect current preset time window
+ */
+function updatePresetInputTimes(presetKey) {
+    const now = new Date();
+    let fromDate = new Date();
+    const hoursMatch = presetKey.match(/^(\d+)h$/);
+    const daysMatch = presetKey.match(/^(\d+)d$/);
+    const minsMatch = presetKey.match(/^(\d+)m$/);
+
+    if (hoursMatch) {
+        fromDate.setTime(now.getTime() - parseInt(hoursMatch[1], 10) * 3600 * 1000);
+    } else if (daysMatch) {
+        fromDate.setTime(now.getTime() - parseInt(daysMatch[1], 10) * 24 * 3600 * 1000);
+    } else if (minsMatch) {
+        fromDate.setTime(now.getTime() - parseInt(minsMatch[1], 10) * 60 * 1000);
+    }
+
+    const tillElem = document.getElementById('till-time');
+    const fromElem = document.getElementById('from-time');
+    if (tillElem) tillElem.value = toDatetimeLocalString(now);
+    if (fromElem) fromElem.value = toDatetimeLocalString(fromDate);
+}
+
+/**
  * Handle quick preset button click
  */
 function selectPreset(presetKey, triggerRefresh = true) {
@@ -143,16 +167,7 @@ function selectPreset(presetKey, triggerRefresh = true) {
         }
     });
 
-    const now = new Date();
-    let fromDate = new Date();
-    const hoursMatch = presetKey.match(/^(\d+)h$/);
-
-    if (hoursMatch) {
-        fromDate.setTime(now.getTime() - parseInt(hoursMatch[1], 10) * 3600 * 1000);
-    }
-
-    document.getElementById('till-time').value = toDatetimeLocalString(now);
-    document.getElementById('from-time').value = toDatetimeLocalString(fromDate);
+    updatePresetInputTimes(presetKey);
 
     updateUrlParams({ preset: presetKey, from: null, till: null });
 
@@ -253,6 +268,7 @@ function refreshGraphs() {
             modeBadge.className = 'badge badge-custom';
         }
     } else {
+        updatePresetInputTimes(activePreset);
         displayRangeText = PRESET_LABELS[activePreset] || activePreset;
         if (modeBadge) {
             modeBadge.textContent = 'PRESET';

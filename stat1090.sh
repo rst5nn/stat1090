@@ -405,11 +405,11 @@ case "$TYPE" in
             "CDEF:departures=TIME,3600,%,0,EQ,0,PREV,UN,0,PREV,IF,IF,departures_int,+" \
             "VDEF:max_landings=landings,MAXIMUM" \
             "VDEF:max_departures=departures,MAXIMUM" \
-            "AREA:landings#${COLOR_LANDINGS}44" \
-            "LINE2:landings#$COLOR_LANDINGS:Landings (Arrivals) " \
+            "AREA:landings#${COLOR_EMERALD}44" \
+            "LINE2:landings#$COLOR_EMERALD:Landings (Arrivals) " \
             "GPRINT:max_landings:Max/Hour\:%3.0lf   " \
-            "AREA:departures#${COLOR_DEPARTURES}44" \
-            "LINE2:departures#$COLOR_DEPARTURES:Departures           " \
+            "AREA:departures#${COLOR_CYAN}44" \
+            "LINE2:departures#$COLOR_CYAN:Departures           " \
             "GPRINT:max_departures:Max/Hour\:%3.0lf\c" \
             --watermark "stat1090 | Rendered: $NOW_STR" &>/dev/null
         ;;
