@@ -110,7 +110,18 @@ Returns JSON with server status, available graph types, active DB path, and rrdt
 
 ---
 
-## Development Guidelines for Adding or Modifying Metrics
+## Development Guidelines
+
+> [!CRITICAL]
+> **Mandatory Local Testing & Verification Before Committing**
+> 
+> 1. **Test & Verify Changes Locally First**: Always test and verify code, script, or UI changes by running `./install.sh` (or manually copying modified files to `/usr/share/stat1090/` / system targets and restarting services) **BEFORE** executing `git commit`.
+> 2. **Never Commit Untested Changes**: Edits to Python backend, shell rendering scripts, database schemas (`stat1090.db`), or HTML/CSS/JS frontend assets must be verified locally to ensure there are no syntax errors, broken layouts, or runtime failures before committing to Git.
+> 3. **Clean Verification Procedure**:
+>    - Make local code modifications in the repository.
+>    - Deploy and test locally using `sudo bash ./install.sh` (or by copying files to `/usr/share/stat1090/`).
+>    - Verify execution (check service status, inspect logs, test API endpoints, or check UI rendering).
+>    - Stage and commit with `git add` and `git commit` **only after** confirming empirical success.
 
 > [!CRITICAL]
 > **Mandatory Inspection of `stat1090.db`**
