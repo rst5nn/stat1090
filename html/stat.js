@@ -219,6 +219,42 @@ function setLiveNow() {
 }
 
 /**
+ * Shift current From & Till timeframe back by 1 day (24 hours) and disable auto refresh
+ */
+function shiftBack1d() {
+    if (currentMode === 'preset') {
+        updatePresetInputTimes(activePreset);
+    }
+
+    let fromVal = document.getElementById('from-time').value;
+    let tillVal = document.getElementById('till-time').value;
+
+    if (!fromVal || !tillVal) {
+        const now = new Date();
+        const past2h = new Date(now.getTime() - (2 * 60 * 60 * 1000));
+        tillVal = toDatetimeLocalString(now);
+        fromVal = toDatetimeLocalString(past2h);
+    }
+
+    const fromDate = new Date(fromVal);
+    const tillDate = new Date(tillVal);
+
+    if (isNaN(fromDate.getTime()) || isNaN(tillDate.getTime())) {
+        return;
+    }
+
+    const ONE_DAY_MS = 24 * 60 * 60 * 1000;
+    const newFromDate = new Date(fromDate.getTime() - ONE_DAY_MS);
+    const newTillDate = new Date(tillDate.getTime() - ONE_DAY_MS);
+
+    document.getElementById('from-time').value = toDatetimeLocalString(newFromDate);
+    document.getElementById('till-time').value = toDatetimeLocalString(newTillDate);
+
+    setRefreshInterval(0);
+    applyCustomRange();
+}
+
+/**
  * Update browser URL without reloading page
  */
 function updateUrlParams(paramsObj) {
