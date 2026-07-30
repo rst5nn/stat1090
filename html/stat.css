@@ -382,6 +382,18 @@ body {
     box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.2);
 }
 
+.action-buttons {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.action-buttons .btn {
+    min-width: 72px;
+    justify-content: center;
+    text-align: center;
+}
+
 /* Active Window Sub-Bar */
 .active-window-bar {
     display: flex;
